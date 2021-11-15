@@ -140,13 +140,23 @@ eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, styleElem
 
 /***/ }),
 
+/***/ "./src/display-project-module.js":
+/*!***************************************!*\
+  !*** ./src/display-project-module.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"display\": () => (/* binding */ display)\n/* harmony export */ });\n// import { container } from \"webpack\";\n\nconst display = (title, todo) => {\n  const projectContainer = document.createElement('div');\n  projectContainer.classList.add('project-container', 'card', 'ma2', 'w5', 'h5');\n\n  const projectBody = document.createElement('div');\n  projectBody.classList.add('project-body', 'card-body', 'overflow-scroll');\n\n  const projectHeader = document.createElement('div');\n  projectHeader.classList.add('project-header', 'flex', 'flex-row-reverse', 'flex-wrap', 'justify-between');\n\n  const buttonContainer = document.createElement('div');\n  buttonContainer.classList.add('button-container');\n\n  const editButton = document.createElement('button');\n  editButton.classList.add('edit-button', 'badge', 'warning', 'pa1');\n  editButton.innerText = 'Edit';\n\n  const projectTitle = document.createElement('h3');\n  projectTitle.classList.add('project-title', 'card-title');\n  projectTitle.innerText = title;\n\n  const projectTodos = document.createElement('div');\n  projectTodos.classList.add('project-todos', 'mt-4');\n\n  projectContainer.appendChild(projectBody);\n  projectBody.appendChild(projectHeader);\n  projectHeader.appendChild(buttonContainer);\n  buttonContainer.appendChild(editButton);\n  projectHeader.appendChild(projectTitle);\n  projectBody.appendChild(projectTodos);\n  projectTodos.appendChild(todo);\n\n  return projectContainer;\n}\n\n\n\n//# sourceURL=webpack://go-buy-milk/./src/display-project-module.js?");
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ \"./src/style.css\");\n/* harmony import */ var _page_load__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./page-load */ \"./src/page-load.js\");\n\n\n\n(0,_page_load__WEBPACK_IMPORTED_MODULE_1__[\"default\"])();\n\n//# sourceURL=webpack://go-buy-milk/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ \"./src/style.css\");\n/* harmony import */ var _page_load__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./page-load */ \"./src/page-load.js\");\n\n\n\nwindow.addEventListener('load', _page_load__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\n\n//# sourceURL=webpack://go-buy-milk/./src/index.js?");
 
 /***/ }),
 
@@ -156,7 +166,17 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _sty
   \**************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nconst pageLoad = () => {\n  console.log('Hello world!');\n};\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (pageLoad);\n\n//# sourceURL=webpack://go-buy-milk/./src/page-load.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _display_project_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./display-project-module */ \"./src/display-project-module.js\");\n/* harmony import */ var _todo_item_module__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./todo-item-module */ \"./src/todo-item-module.js\");\n\n\n\nconst pageLoad = () => {\n  const myTodo = new _todo_item_module__WEBPACK_IMPORTED_MODULE_1__.TodoItem('test title', 'test description', 'test due data', 'test priority', 'Medium', true);\n  const myTodoDom = myTodo.displayTodoItem();\n  const todoList = document.querySelector('.project-todos');\n  todoList.appendChild(myTodoDom);\n  const projects = document.querySelector('#projects');\n  projects.appendChild((0,_display_project_module__WEBPACK_IMPORTED_MODULE_0__.display)('New Project', myTodo.displayTodoItem()));\n};\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (pageLoad);\n\n//# sourceURL=webpack://go-buy-milk/./src/page-load.js?");
+
+/***/ }),
+
+/***/ "./src/todo-item-module.js":
+/*!*********************************!*\
+  !*** ./src/todo-item-module.js ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"TodoItem\": () => (/* binding */ TodoItem)\n/* harmony export */ });\nclass TodoItem {\n  constructor(title, description, dueDate, priority, completed) {\n    this.title = title;\n    this.description = description;\n    this.dueDate = dueDate;\n    this.priority = priority;\n    this.completed = completed;\n  }\n\n  displayTodoItem() {\n    const projectTodo = document.createElement(\"div\");\n    projectTodo.classList.add('project-todo', 'relative', 'db', 'mt2');\n\n    const todoLabel = document.createElement('label');\n    todoLabel.classList.add('todo-label', 'dib', 'mw-100', 'pl3', 'mv1');\n\n    const todoInput = document.createElement('input');\n    todoInput.classList.add('todo-input', 'absolute', 'nl3', 'mt1');\n    todoInput.type = 'checkbox';\n    if (this.completed) todoInput.checked = true;\n\n    const todoTitle = document.createElement('div');\n    todoTitle.classList.add('todo-title', 'f3');\n    todoTitle.innerText = this.title;\n\n    const todoDescription = document.createElement('span');\n    todoDescription.classList.add('todo-description', 'mv1');\n    todoDescription.innerText = this.description;\n\n    const todoInfo = document.createElement('div');\n    todoInfo.classList.add('todo-info', 'mv1');\n\n    const todoDueDate = document.createElement('span');\n    todoDueDate.classList.add('todo-due-date', 'card-subtitle');\n    todoDueDate.innerText = this.dueDate;\n\n    const infoDivider = document.createElement('span');\n    infoDivider.classList.add('info-divider');\n    infoDivider.innerText = ' | ';\n\n    const todoPriority = document.createElement('span');\n    todoPriority.classList.add('todo-priority', 'gold');\n    todoPriority.innerText = this.priority;\n\n    projectTodo.appendChild(todoLabel);\n    todoLabel.appendChild(todoInput);\n    todoLabel.appendChild(todoTitle);\n    todoLabel.appendChild(todoDescription);\n    todoLabel.appendChild(todoInfo);\n    todoInfo.appendChild(todoDueDate);\n    todoInfo.appendChild(infoDivider);\n    todoInfo.appendChild(todoPriority);\n\n    return projectTodo;\n  }\n}\n\n\n\n//# sourceURL=webpack://go-buy-milk/./src/todo-item-module.js?");
 
 /***/ }),
 
