@@ -34,7 +34,10 @@ class Project {
     buttonContainer.appendChild(editButton);
     projectHeader.appendChild(projectTitle);
     projectBody.appendChild(projectTodos);
-    projectTodos.appendChild(this.todoItems[0].displayTodoItem());
+
+    for(const todo of this.todoItems) {
+      projectTodos.appendChild(todo.displayTodoItem());
+    }
 
     return projectContainer;
   }
