@@ -160,13 +160,23 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _sty
 
 /***/ }),
 
+/***/ "./src/new-project-button-module.js":
+/*!******************************************!*\
+  !*** ./src/new-project-button-module.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"displayNewProjectButton\": () => (/* binding */ displayNewProjectButton)\n/* harmony export */ });\nconst displayNewProjectButton = () => {\n  const newProjectButton = document.createElement('button');\n  newProjectButton.setAttribute('id', 'new-project-button');\n  newProjectButton.classList.add('article', 'mw5', 'bg-white', 'f4', 'f3-ns', 'pa2', 'pa3-ns', 'ma3', 'flex', 'flex-column', 'items-center');\n\n  const plusSign = document.createElement('span');\n  plusSign.classList.add('f1');\n  plusSign.innerText = '+';\n\n  const addNewProject = document.createElement('span');\n  addNewProject.innerText = 'Add New Project';\n  \n  newProjectButton.appendChild(plusSign);\n  newProjectButton.appendChild(addNewProject);\n\n  return newProjectButton;\n}\n\n\n\n//# sourceURL=webpack://go-buy-milk/./src/new-project-button-module.js?");
+
+/***/ }),
+
 /***/ "./src/page-load.js":
 /*!**************************!*\
   !*** ./src/page-load.js ***!
   \**************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _display_project_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./display-project-module */ \"./src/display-project-module.js\");\n/* harmony import */ var _todo_item_module__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./todo-item-module */ \"./src/todo-item-module.js\");\n\n\n\nconst pageLoad = () => {\n  const myTodo = new _todo_item_module__WEBPACK_IMPORTED_MODULE_1__.TodoItem('test title', 'test description', 'test due data', 'test priority', 'Medium', true);\n  const myTodoDom = myTodo.displayTodoItem();\n  const todoList = document.querySelector('.project-todos');\n  todoList.appendChild(myTodoDom);\n  const projects = document.querySelector('#projects');\n  projects.appendChild((0,_display_project_module__WEBPACK_IMPORTED_MODULE_0__.display)('New Project', myTodo.displayTodoItem()));\n};\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (pageLoad);\n\n//# sourceURL=webpack://go-buy-milk/./src/page-load.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _new_project_button_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./new-project-button-module */ \"./src/new-project-button-module.js\");\n/* harmony import */ var _display_project_module__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./display-project-module */ \"./src/display-project-module.js\");\n/* harmony import */ var _todo_item_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./todo-item-module */ \"./src/todo-item-module.js\");\n\n\n\n\nconst pageLoad = () => {\n  const myTodo = new _todo_item_module__WEBPACK_IMPORTED_MODULE_2__.TodoItem('test title', 'test description', 'test due data', 'test priority', 'Medium', true);\n  const myTodoDom = myTodo.displayTodoItem();\n  const todoList = document.querySelector('.project-todos');\n  const projects = document.querySelector('#projects');\n  projects.prepend((0,_new_project_button_module__WEBPACK_IMPORTED_MODULE_0__.displayNewProjectButton)());\n  todoList.appendChild(myTodoDom);\n  projects.appendChild((0,_display_project_module__WEBPACK_IMPORTED_MODULE_1__.display)('New Project', myTodo.displayTodoItem()));\n};\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (pageLoad);\n\n//# sourceURL=webpack://go-buy-milk/./src/page-load.js?");
 
 /***/ }),
 
