@@ -8,7 +8,7 @@
   <title>Go Buy Milk</title>
 </head>
 <body>
-  <div id="content" class="vh-100 ma0 pa0 paper">
+  <div id="content" class="min-vh-100 h-100 ma0 pa0 paper">
     <nav class="">
       <div class="nav-brand">
         <h3><a href="#">Go Buy Milk</a></h3>
@@ -20,53 +20,40 @@
         <p class="ma0">Add a new project</p>
       </button>
       <div class="card ma2 w5 h5">
-        <div class="card-body">
-          <h3 class="card-title">Chores</h3>
-          <div class="mt-4">
-            <div class="flex items-start text-lg leading-tight">
-              <div class="flex items-center">
-                <!-- Zero-width space character, used to align checkbox properly -->
-                &#8203;
-                <input id="option4" type="checkbox" class="paper-check mr2 mv2 border-gray-400 h-4 w-4 text-indigo-600" />
-              </div>
-              <label for="option4" class="paper-check">
-                <div class="f3 mv1">Title</div>
-                <p">This is the description of this card.</p>
-                <div class="card-subtitle">Due date</div>
-                <div class="gold">Priority</div>
-              </label>
-            </div>
-            <div class="flex items-start text-lg leading-tight">
-              <div class="flex items-center">
-                <!-- Zero-width space character, used to align checkbox properly -->
-                &#8203;
-                <input id="option4" type="checkbox" class="paper-check mr2 mv2 border-gray-400 h-4 w-4 text-indigo-600" />
-              </div>
-              <label for="option4" class="paper-check">
-                <div class="f3 mv1">Here's another task</div>
-                <p">This task will entail doing many things that need to be done.</p>
-                <div class="card-subtitle">Due date</div>
-                <div class="gold">Priority</div>
-              </label>
-            </div>
+        <div class="card-body overflow-scroll">
+          <div class="flex flex-row-reverse flex-wrap justify-between">
+            <div><button class="badge warning pa1">EDIT</button></div>
+            <h3 class="card-title">Chores</h3>
           </div>
-        </div>
-      </div>
-      <div class="card ma2 w5 h5">
-        <div class="card-body">
-          <h3 class="card-title">Chores</h3>
           <div class="mt-4">
-            <div class="flex items-start text-lg leading-tight">
-              <div class="flex items-center">
-                <!-- Zero-width space character, used to align checkbox properly -->
-                &#8203;
-                <input id="option4" type="checkbox" class="paper-check mr2 mv2 border-gray-400 h-4 w-4 text-indigo-600" />
-              </div>
-              <label for="option4" class="paper-check">
-                <div class="f3 mv1">Title</div>
-                <p">This is the description of this card.</p>
-                <div class="card-subtitle">Due date</div>
-                <div class="gold">Priority</div>
+            <div class="relative db mt2">
+              <label class="dib mw-100 pl3 mv1">
+                <input class="absolute nl3 mt1" type="checkbox" value="spacejam">
+                <div class="f3">Title</div>
+                <span class="mv1">This is the description of this card.</span>
+                <div class="mv1">
+                  <span class="card-subtitle">Due date</span> | <span class="gold">Priority</span>
+                </div>
+                </label>
+            </div>
+            <div class="relative db mt2">
+              <label class="dib mw-100 pl3 mv1">
+                <input class="absolute nl3 mt1" type="checkbox" value="spacejam">
+                <div class="f3">Here's another task</div>
+                <span class="mv1">This task will entail doing many things that need to be done.</span>
+                <div class="mv1">
+                  <span class="card-subtitle">Due date</span> | <span class="gold">Priority</span>
+                </div>
+              </label>
+            </div>
+            <div class="relative db mt2">
+              <label class="dib mw-100 pl3 mv1">
+                <input class="absolute nl3 mt1" type="checkbox" value="spacejam">
+                <div class="f3">This is the third one</div>
+                <span class="mv1">This is a long multiline label. Here we go. Still typing.</span>
+                <div class="mv1">
+                  <span class="card-subtitle">Due date</span> | <span class="gold">Priority</span>
+                </div>
               </label>
             </div>
           </div>
