@@ -23,6 +23,18 @@ class TodoItem {
     todoTitle.classList.add('todo-title', 'f3');
     todoTitle.innerText = this.title;
 
+    switch(this.priority) {
+      case 'high':
+        todoTitle.classList.add('red');
+        break;
+      case 'medium':
+        todoTitle.classList.add('gold');
+        break;
+      case 'low':
+        todoTitle.classList.add('green');
+        break;
+    }
+
     const todoDescription = document.createElement('span');
     todoDescription.classList.add('todo-description', 'mv1');
     todoDescription.innerText = this.description;
@@ -34,22 +46,12 @@ class TodoItem {
     todoDueDate.classList.add('todo-due-date', 'card-subtitle');
     todoDueDate.innerText = this.dueDate;
 
-    const infoDivider = document.createElement('span');
-    infoDivider.classList.add('info-divider');
-    infoDivider.innerText = ' | ';
-
-    const todoPriority = document.createElement('span');
-    todoPriority.classList.add('todo-priority', 'gold');
-    todoPriority.innerText = this.priority;
-
     projectTodo.appendChild(todoLabel);
     todoLabel.appendChild(todoInput);
     todoLabel.appendChild(todoTitle);
     todoLabel.appendChild(todoDescription);
     todoLabel.appendChild(todoInfo);
     todoInfo.appendChild(todoDueDate);
-    todoInfo.appendChild(infoDivider);
-    todoInfo.appendChild(todoPriority);
 
     return projectTodo;
   }
