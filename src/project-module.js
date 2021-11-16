@@ -4,6 +4,10 @@ class Project {
     this.todoItems = [];
   }
 
+  addTodo(todo) {
+    this.todoItems.push(todo);
+  }
+
   displayProject() {
     const projectContainer = document.createElement('div');
     projectContainer.classList.add('project-container', 'card', 'ma2', 'w5', 'h5');
@@ -40,10 +44,6 @@ class Project {
     }
 
     return projectContainer;
-  }
-
-  addTodo(todo) {
-    this.todoItems.push(todo);
   }
 }
 
