@@ -1,12 +1,10 @@
-import { displayController } from './display-controller';
-import { generateDefault } from './default-project-module';
+import { DisplayController } from './display-controller';
+import { ProjectsController } from './projects-controller';
 
 const pageLoad = () => {
-  displayController.initialize();
-  const defaultProjects = generateDefault();
-  displayController.addProject(defaultProjects[0]);
-  displayController.addProject(defaultProjects[1]);
-  displayController.updateDisplay();
+  ProjectsController.initialize();
+  DisplayController.initialize();
+  DisplayController.updateDisplay();
 };
 
 export default pageLoad;
