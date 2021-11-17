@@ -30,7 +30,9 @@ class DisplayController {
     this.clearProjects(projects);
 
     for(const project of display) {
-      this.#projects.appendChild(this.displayProject(project));
+      let displayProject = this.displayProject(project)
+      displayProject.dataset.projectId = project.id;
+      this.#projects.appendChild(displayProject);
     }
   }
 
