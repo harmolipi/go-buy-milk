@@ -117,7 +117,7 @@ class DisplayController {
     newModalLabel.classList.add('modal-bg');
 
     const newModalBody = document.createElement('div');
-    newModalBody.classList.add('modal-body');
+    newModalBody.classList.add('modal-body', 'overflow-scroll');
 
     const closeLabel = document.createElement('label');
     closeLabel.setAttribute('for', 'new-project-input');
@@ -147,30 +147,101 @@ class DisplayController {
   }
 
   static #newProjectForm() {
-    const projectContainer = document.createElement('div');
-    projectContainer.classList.add('project-container', 'ma2', 'w5', 'h5');
+    const newProjectContainer = document.createElement('div');
+    newProjectContainer.classList.add('new-project-container', 'ma2', 'w5', 'h5');
 
     const projectBody = document.createElement('div');
     projectBody.classList.add('project-body', 'overflow-scroll');
 
+    const projectTitleContainer = document.createElement('div');
+    projectTitleContainer.classList.add('form-group');
+
+    const projectTitleLabel = document.createElement('label');
+    projectTitleLabel.setAttribute('for', 'new-project-title');
+    projectTitleLabel.classList.add('f2');
+    projectTitleLabel.textContent = 'Project Title';
+
     const projectTitle = document.createElement('input');
-    projectTitle.setAttribute('placeholder', 'Project Title');
+    projectTitle.setAttribute('placeholder', 'My New Project');
     projectTitle.setAttribute('type', 'text');
     projectTitle.setAttribute('id', 'new-project-title');
-    projectTitle.classList.add('project-title', 'card-title');
+
+    const projectTodosHeader = document.createElement('h3');
+    projectTodosHeader.textContent = 'Todos:';
 
     const projectTodos = document.createElement('div');
     projectTodos.classList.add('project-todos', 'mt-4');
 
-    projectContainer.appendChild(projectBody);
-    projectBody.appendChild(projectTitle);
+    const todoList = document.createElement('ul');
+
+    const todoItem = document.createElement('li');
+
+    newProjectContainer.appendChild(projectBody);
+    projectBody.appendChild(projectTitleContainer);
+    projectTitleContainer.appendChild(projectTitleLabel);
+    projectTitleContainer.appendChild(projectTitle);
+    projectBody.appendChild(projectTodosHeader);
     projectBody.appendChild(projectTodos);
+    projectTodos.appendChild(todoList);
+    todoList.appendChild(todoItem);
+    todoItem.appendChild(this.newTodoForm());
 
     // for(const todo of project.todoItems) {
     //   projectTodos.appendChild(todo.displayTodoItem());
     // }
 
-    return projectContainer;
+    return newProjectContainer;
+  }
+
+  static newTodoForm() {
+    const todoFormContainer = document.createElement('div');
+    todoFormContainer.classList.add('form-group', 'nt4', 'ml3');
+
+    const todoTitle = document.createElement('input');
+    todoTitle.setAttribute('placeholder', 'Todo Title');
+    todoTitle.setAttribute('type', 'text');
+    todoTitle.setAttribute('id', 'new-todo-title');
+    todoTitle.classList.add('mv2');
+
+    const todoDescription = document.createElement('textarea');
+    todoDescription.setAttribute('placeholder', 'Task description');
+    todoDescription.classList.add('mv2');
+
+    const dueDate = document.createElement('input');
+    dueDate.setAttribute('type', 'date');
+    todoDescription.classList.add('mv2');
+
+    const todoPriority = document.createElement('select');
+    todoPriority.setAttribute('id', 'new-todo-priority');
+    todoPriority.classList.add('mv2');
+    
+    const lowPriority = document.createElement('option');
+    lowPriority.setAttribute('value', 'low');
+    lowPriority.textContent = 'Low';
+
+    const mediumPriority = document.createElement('option');
+    mediumPriority.setAttribute('value', 'medium');
+    mediumPriority.textContent = 'Medium';
+
+    const highPriority = document.createElement('option');
+    highPriority.setAttribute('value', 'high');
+    highPriority.textContent = 'High';
+
+    const submitTodo = document.createElement('button');
+    submitTodo.setAttribute('id', 'new-todo');
+    submitTodo.classList.add('btn-success', 'mv2');
+    submitTodo.textContent = 'Add task';
+
+    todoFormContainer.appendChild(todoTitle);
+    todoFormContainer.appendChild(todoDescription);
+    todoFormContainer.appendChild(dueDate);
+    todoPriority.appendChild(lowPriority);
+    todoPriority.appendChild(mediumPriority);
+    todoPriority.appendChild(highPriority);
+    todoFormContainer.appendChild(todoPriority);
+    todoFormContainer.appendChild(submitTodo);
+
+    return todoFormContainer;
   }
 
   static displayProject(project) {
@@ -180,28 +251,20 @@ class DisplayController {
     const projectBody = document.createElement('div');
     projectBody.classList.add('project-body', 'card-body', 'overflow-scroll');
 
-    const projectHeader = document.createElement('div');
-    projectHeader.classList.add('project-header', 'flex', 'flex-row-reverse', 'flex-wrap', 'justify-between');
-
-    const buttonContainer = document.createElement('div');
-    buttonContainer.classList.add('button-container');
-
     const editButton = document.createElement('button');
-    editButton.classList.add('edit-button', 'badge', 'warning', 'pa1');
+    editButton.classList.add('edit-button', 'badge', 'warning', 'pa1', 'absolute', 'right-1');
     editButton.textContent = 'Edit';
 
     const projectTitle = document.createElement('h3');
-    projectTitle.classList.add('project-title', 'card-title');
+    projectTitle.classList.add('project-title', 'card-title', 'pt3');
     projectTitle.textContent = project.name;
 
     const projectTodos = document.createElement('div');
     projectTodos.classList.add('project-todos', 'mt-4');
 
     projectContainer.appendChild(projectBody);
-    projectBody.appendChild(projectHeader);
-    projectHeader.appendChild(buttonContainer);
-    buttonContainer.appendChild(editButton);
-    projectHeader.appendChild(projectTitle);
+    projectBody.appendChild(editButton);
+    projectBody.appendChild(projectTitle);
     projectBody.appendChild(projectTodos);
 
     for(const todo of project.todoItems) {
