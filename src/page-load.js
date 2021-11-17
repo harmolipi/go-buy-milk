@@ -2,8 +2,8 @@ import { DisplayController } from './display-controller';
 import { ProjectsController } from './projects-controller';
 
 const pageLoad = () => {
-  ProjectsController.initialize();
   DisplayController.initialize();
+  ProjectsController.initialize();
   DisplayController.updateDisplay();
 };
 
