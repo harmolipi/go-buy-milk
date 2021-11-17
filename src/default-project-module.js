@@ -1,8 +1,13 @@
 import { Project } from './project-module';
 import { TodoItem } from './todo-item-module';
 
+const newProject = () => {
+  const newProject = new Project('New Project', 'new');
+  return newProject;
+}
+
 const generateDefault = () => {
-  const defaultProject = new Project('');
+  const defaultProject = new Project('Default Project');
 
   return [defaultProject];
 };
@@ -24,4 +29,4 @@ const generateDevDefault = () => {
   return [myProject1, myProject2, myProject3];
 };
 
-export { generateDefault, generateDevDefault };
+export { newProject, generateDefault, generateDevDefault };
