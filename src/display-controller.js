@@ -1,54 +1,60 @@
-const displayController = (() => {
-  const displayItems = [];
+import { ProjectsController } from './projects-controller';
 
-  const initialize = () => {
-    const body = document.querySelector('body');
-    const content = createContentContainer();
-    const projects = createProjectsContainer();
-    const navbar = createNavbar();
-    const newProjectButton = createNewProjectButton();
+class DisplayController {
+  static #body;
+  static #content;
+  static #projects;
+  static #navbar;
+  static #newProjectButton;
 
-    body.appendChild(content);
-    content.prepend(navbar);
-    content.appendChild(projects);
-    projects.prepend(newProjectButton);
-  };
+  static initialize() {
+    this.#body = document.querySelector('body');
+    this.#content = this.createContentContainer();
+    this.#projects = this.createProjectsContainer();
+    this.#navbar = this.createNavbar();
+    this.#newProjectButton = this.createNewProjectButton();
 
-  const updateDisplay = (display = displayItems) => {
-    const projects = document.querySelector('#projects');
-    clearProjects(projects);
+    this.#body.appendChild(this.#content);
+    this.#content.prepend(this.#navbar);
+    this.#content.appendChild(this.#projects);
+    this.#projects.prepend(this.#newProjectButton);
+  }
+
+  static updateDisplay(display = ProjectsController.projects) {
+    this.clearProjects(projects);
 
     for(const project of display) {
       projects.appendChild(project.displayProject());
     }
-  };
+  }
 
-  const clearProjects = element => {
+  static clearProjects(element) {
     while(element.lastChild && element.lastChild.classList.contains('project-container')) {
       element.removeChild(element.lastChild);
     }
   }
 
-  const addProject = project => {
-    displayItems.push(project);
-  };
+  static addProject(project) {
+    this.displayItems.push(project);
+  }
 
-  const createContentContainer = () => {
+  static createContentContainer() {
     const content = document.createElement('div');
     content.id = 'content';
-    content.classList.add('min-vh-100', 'h-100', 'ma0', 'pa0', 'paper');
+    content.classList.add('min-vh-100', 'h-100', 'mt3', 'ma0', 'pa0', 'paper');
     return content;
   }
   
-  const createProjectsContainer = () => {
+  static createProjectsContainer() {
     const projects = document.createElement('div');
     projects.id = 'projects';
     projects.classList.add('flex', 'flex-wrap', 'pa2', 'pa3-ns');
     return projects;
   }
 
-  const createNavbar = () => {
+  static createNavbar() {
     const navbar = document.createElement('nav');
+    navbar.classList.add('fixed', 'pb2');
 
     const navBrand = document.createElement('div');
     navBrand.classList.add('nav-brand');
@@ -64,7 +70,7 @@ const displayController = (() => {
     return navbar;
   }
 
-  const createNewProjectButton = () => {
+  static createNewProjectButton() {
     const newProjectButton = document.createElement('button');
     newProjectButton.setAttribute('id', 'new-project-button');
     newProjectButton.classList.add('article', 'mw5', 'bg-white', 'f4', 'f3-ns', 'pa2', 'pa3-ns', 'ma3', 'flex', 'flex-column', 'items-center');
@@ -81,8 +87,6 @@ const displayController = (() => {
   
     return newProjectButton;
   }
+}
 
-  return { initialize, addProject, updateDisplay };
-})();
-
-export { displayController };
+export { DisplayController };
