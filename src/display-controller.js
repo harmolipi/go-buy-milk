@@ -8,12 +8,14 @@ class DisplayController {
   static #newProjectButton;
   static #newProjectInput;
   static #newProjectModal;
+  static #newTodoForm;
 
   static initialize() {
     this.#body = document.querySelector('body');
     this.#content = this.createContentContainer();
     this.#projects = this.createProjectsContainer();
     this.#navbar = this.createNavbar();
+    this.#newTodoForm = this.#createNewTodoForm();
     this.#newProjectButton = this.#createNewProjectButton();
     this.#newProjectInput = this.#createNewProjectInput();
     this.#newProjectModal = this.#createNewProjectModal(this.#newProjectForm());
@@ -44,6 +46,44 @@ class DisplayController {
 
   static addProject(project) {
     this.displayItems.push(project);
+  }
+
+  static updateTodoList(project) {
+    const projectContainer = document.querySelector(`[data-project-id="${project.id}"]`);
+    const todoList = projectContainer.querySelector('.project-todos');
+    this.clearTodoList(todoList);
+
+    for(const todo of project.todoItems) {
+      let displayTodo = this.#displayTodoItem(todo);
+      displayTodo.classList.add('mv3');
+      todoList.appendChild(displayTodo);
+      const horizontalRule = document.createElement('hr');
+      todoList.appendChild(horizontalRule);
+    }
+
+    const todoListForm = document.createElement('div');
+    todoListForm.classList.add('mv5');
+    todoListForm.appendChild(this.#newTodoForm);
+    todoList.appendChild(todoListForm);
+    this.#clearTodoListForm();
+  }
+
+  static clearTodoList(todoList) {
+    while(todoList.firstChild) {
+      todoList.removeChild(todoList.firstChild);
+    }
+  }
+
+  static #clearTodoListForm() {
+    const title = document.querySelector('#new-todo-title');
+    const description = document.querySelector('#new-todo-description');
+    const dueDate = document.querySelector('#new-todo-date');
+    const priority = document.querySelector('#new-todo-priority');
+
+    title.value = '';
+    description.value = '';
+    dueDate.value = '';
+    priority.selectedIndex = 0;
   }
 
   static createContentContainer() {
@@ -151,6 +191,7 @@ class DisplayController {
   static #newProjectForm() {
     const newProjectContainer = document.createElement('div');
     newProjectContainer.classList.add('new-project-container', 'ma2', 'w5', 'h5');
+    newProjectContainer.dataset.projectId = 'new';
 
     const projectBody = document.createElement('div');
     projectBody.classList.add('project-body', 'overflow-scroll');
@@ -174,9 +215,7 @@ class DisplayController {
     const projectTodos = document.createElement('div');
     projectTodos.classList.add('project-todos', 'mt-4');
 
-    const todoList = document.createElement('ul');
-
-    const todoItem = document.createElement('li');
+    const todoList = document.createElement('div');
 
     newProjectContainer.appendChild(projectBody);
     projectBody.appendChild(projectTitleContainer);
@@ -185,8 +224,7 @@ class DisplayController {
     projectBody.appendChild(projectTodosHeader);
     projectBody.appendChild(projectTodos);
     projectTodos.appendChild(todoList);
-    todoList.appendChild(todoItem);
-    todoItem.appendChild(this.newTodoForm());
+    todoList.appendChild(this.#newTodoForm);
 
     // for(const todo of project.todoItems) {
     //   projectTodos.appendChild(todo.displayTodoItem());
@@ -195,7 +233,7 @@ class DisplayController {
     return newProjectContainer;
   }
 
-  static newTodoForm() {
+  static #createNewTodoForm() {
     const todoFormContainer = document.createElement('div');
     todoFormContainer.classList.add('form-group', 'nt4', 'ml3');
 
@@ -207,10 +245,12 @@ class DisplayController {
 
     const todoDescription = document.createElement('textarea');
     todoDescription.setAttribute('placeholder', 'Task description');
+    todoDescription.setAttribute('id', 'new-todo-description');
     todoDescription.classList.add('mv2');
 
     const dueDate = document.createElement('input');
     dueDate.setAttribute('type', 'date');
+    dueDate.setAttribute('id', 'new-todo-date');
     todoDescription.classList.add('mv2');
 
     const todoPriority = document.createElement('select');
@@ -279,6 +319,8 @@ class DisplayController {
   static #displayTodoItem(todo) {
     const projectTodo = document.createElement("div");
     projectTodo.classList.add('project-todo', 'relative', 'db', 'mt2');
+    projectTodo.dataset.todoId = `${todo.project_id}-${todo.id}`;
+
 
     const todoLabel = document.createElement('label');
     todoLabel.classList.add('todo-label', 'dib', 'mw-100', 'pl3', 'mv1');
