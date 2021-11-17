@@ -1,4 +1,10 @@
 class TodoItem {
+  title;
+  description;
+  dueDate;
+  priority;
+  completed;
+
   constructor(title, description, dueDate, priority, completed) {
     this.title = title;
     this.description = description;
