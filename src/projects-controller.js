@@ -9,7 +9,7 @@ class ProjectsController {
   static initialize() {
     this.#projects = [];
     this.#newProject = newProject();
-    this.#setDefault();
+    // this.#setDefault();
     // this.#setDevDefaults();
     this.#updateProjects();
     this.#setEventListeners();
@@ -48,10 +48,9 @@ class ProjectsController {
 
   static #setEventListeners() {
     const newTodoButton = document.querySelector("#new-todo");
-    const newProjectSaveButton = document.querySelector("#new-project-save");
+    const saveNewProjectButton = document.querySelector("#new-project-save");
     newTodoButton.addEventListener("click", (e) => this.#addTodoToNewProject(e));
-    newProjectSaveButton.addEventListener("click", (e) => this.#saveNewProject(e));
-
+    saveNewProjectButton.addEventListener("click", (e) => this.#saveNewProject(e));
   }
 
   static #addTodoToNewProject(e) {
