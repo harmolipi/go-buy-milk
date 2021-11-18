@@ -48,7 +48,10 @@ class ProjectsController {
 
   static #setEventListeners() {
     const newTodoButton = document.querySelector("#new-todo");
+    const newProjectSaveButton = document.querySelector("#new-project-save");
     newTodoButton.addEventListener("click", (e) => this.#addTodoToNewProject(e));
+    newProjectSaveButton.addEventListener("click", (e) => this.#saveNewProject(e));
+
   }
 
   static #addTodoToNewProject(e) {
@@ -61,6 +64,14 @@ class ProjectsController {
     
     this.#newProject.addTodo(newTodo);
     DisplayController.updateTodoList(this.#newProject);
+  }
+
+  static #saveNewProject(e) {
+    e.preventDefault();
+    this.#projects.push(this.#newProject);
+    this.#newProject = newProject();
+    this.#updateProjects();
+    DisplayController.updateDisplay(this.#projects);
   }
 }
 

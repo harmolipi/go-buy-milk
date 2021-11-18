@@ -30,6 +30,8 @@ class DisplayController {
 
   static updateDisplay(display = ProjectsController.projects) {
     this.clearProjects(projects);
+    const newProjectInput = document.querySelector('#new-project-input');
+    newProjectInput.checked = false;
 
     for(const project of display) {
       let displayProject = this.displayProject(project)
