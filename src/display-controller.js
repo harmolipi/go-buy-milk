@@ -46,10 +46,6 @@ class DisplayController {
     }
   }
 
-  static addProject(project) {
-    this.displayItems.push(project);
-  }
-
   static updateTodoList(project) {
     const projectContainer = document.querySelector(`[data-project-id="${project.id}"]`);
     const todoList = projectContainer.querySelector('.project-todos');
