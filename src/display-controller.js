@@ -217,6 +217,17 @@ class DisplayController {
 
     const todoList = document.createElement('div');
 
+    const projectSaveRow = document.createElement('div');
+    projectSaveRow.classList.add('row');
+
+    const projectSaveContainer = document.createElement('div');
+    projectSaveContainer.classList.add('col-12', 'col');
+
+    const projectSaveButton = document.createElement('button');
+    projectSaveButton.setAttribute('id', 'new-project-save');
+    projectSaveButton.classList.add('btn-block', 'btn-success');
+    projectSaveButton.textContent = 'Save Project';
+
     newProjectContainer.appendChild(projectBody);
     projectBody.appendChild(projectTitleContainer);
     projectTitleContainer.appendChild(projectTitleLabel);
@@ -225,10 +236,9 @@ class DisplayController {
     projectBody.appendChild(projectTodos);
     projectTodos.appendChild(todoList);
     todoList.appendChild(this.#newTodoForm);
-
-    // for(const todo of project.todoItems) {
-    //   projectTodos.appendChild(todo.displayTodoItem());
-    // }
+    projectSaveRow.appendChild(projectSaveContainer);
+    projectSaveContainer.appendChild(projectSaveButton);
+    projectBody.appendChild(projectSaveRow);
 
     return newProjectContainer;
   }
@@ -271,7 +281,7 @@ class DisplayController {
 
     const submitTodo = document.createElement('button');
     submitTodo.setAttribute('id', 'new-todo');
-    submitTodo.classList.add('btn-success', 'mv2');
+    submitTodo.classList.add('btn-secondary', 'mv2');
     submitTodo.textContent = 'Add task';
 
     todoFormContainer.appendChild(todoTitle);
