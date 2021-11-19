@@ -38,6 +38,9 @@ class DisplayController {
       displayProject.dataset.projectId = project.id;
       this.#projects.appendChild(displayProject);
     }
+
+    this.#clearProjectForm();
+    this.#clearTodoListForm();
   }
 
   static clearProjects(element) {
@@ -72,6 +75,14 @@ class DisplayController {
     }
   }
 
+  static #clearProjectForm() {
+    const newProjectModal = document.querySelector('#new-project-modal');
+    const title = document.querySelector('#new-project-title-input');
+
+    newProjectModal.scrollTo(0, 0);
+    title.value = '';
+  }
+
   static #clearTodoListForm() {
     const title = document.querySelector('#new-todo-title');
     const description = document.querySelector('#new-todo-description');
@@ -87,14 +98,14 @@ class DisplayController {
   static createContentContainer() {
     const content = document.createElement('div');
     content.id = 'content';
-    content.classList.add('min-vh-100', 'h-100', 'mt3', 'ma0', 'pa0', 'paper');
+    content.classList.add('min-vh-100', 'h-100', 'ma0', 'pa0', 'paper');
     return content;
   }
   
   static createProjectsContainer() {
     const projects = document.createElement('div');
     projects.id = 'projects';
-    projects.classList.add('flex', 'flex-wrap', 'pa2', 'pa3-ns');
+    projects.classList.add('flex', 'flex-wrap', 'mt3', 'pa2', 'pa3-ns');
     return projects;
   }
 
@@ -157,6 +168,7 @@ class DisplayController {
     newModalLabel.classList.add('modal-bg');
 
     const newModalBody = document.createElement('div');
+    newModalBody.setAttribute('id', 'new-project-modal');
     newModalBody.classList.add('modal-body', 'overflow-scroll');
 
     const closeLabel = document.createElement('label');
@@ -186,7 +198,7 @@ class DisplayController {
     return newModalContainer;
   }
 
-  static #newProjectForm() {
+  static #newProjectForm(project) {
     const newProjectContainer = document.createElement('div');
     newProjectContainer.classList.add('new-project-container', 'ma2', 'w5', 'h5');
     newProjectContainer.dataset.projectId = 'new';
@@ -198,14 +210,16 @@ class DisplayController {
     projectTitleContainer.classList.add('form-group');
 
     const projectTitleLabel = document.createElement('label');
-    projectTitleLabel.setAttribute('for', 'new-project-title');
+    projectTitleLabel.setAttribute('for', 'new-project-title-input');
+    projectTitleLabel.setAttribute('id', 'new-project-title');
     projectTitleLabel.classList.add('f2');
     projectTitleLabel.textContent = 'Project Title';
 
     const projectTitle = document.createElement('input');
     projectTitle.setAttribute('placeholder', 'My New Project');
     projectTitle.setAttribute('type', 'text');
-    projectTitle.setAttribute('id', 'new-project-title');
+    projectTitle.setAttribute('id', 'new-project-title-input');
+    if(project) { projectTitle.value = project.title; }
 
     const projectTodosHeader = document.createElement('h3');
     projectTodosHeader.textContent = 'Todos:';
