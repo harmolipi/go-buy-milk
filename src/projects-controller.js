@@ -67,6 +67,8 @@ class ProjectsController {
 
   static #saveNewProject(e) {
     e.preventDefault();
+    const newProjectTitle = document.querySelector("#new-project-title-input").value;
+    this.#newProject.name = newProjectTitle;
     this.#projects.push(this.#newProject);
     this.#newProject = newProject();
     this.#updateProjects();
