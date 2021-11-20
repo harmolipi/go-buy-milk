@@ -18,7 +18,7 @@ class Project {
     let tempTodos = this.todoItems.slice();
     this.#clearTodos();
     tempTodos.forEach((todo) => {
-      todo.project_id = this.id;
+      todo.projectId = this.id;
       this.todoItems.push(todo);
       todo.id = this.todoItems.length - 1;
     });

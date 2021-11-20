@@ -5,15 +5,15 @@ class TodoItem {
   priority;
   completed;
   id;
-  project_id;
+  projectId;
 
-  constructor(title, description, dueDate, priority, completed, project_id, id) {
+  constructor(title, description, dueDate, priority, completed, projectId, id) {
     this.title = title;
     this.description = description;
     this.dueDate = dueDate;
     this.priority = priority;
     this.completed = completed;
-    this.project_id = project_id;
+    this.projectId = projectId;
     this.id = id;
   }
 }
