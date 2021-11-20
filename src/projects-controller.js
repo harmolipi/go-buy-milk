@@ -63,8 +63,9 @@ class ProjectsController {
     console.log('updating project event listeners');
     const projectLabels = document.querySelectorAll(".project-labels");
     if(projectLabels) {
-      console.log(projectLabels);
-      projectLabels.forEach(projectLabel => projectLabel.addEventListener("click", (e) => this.#setEditProjectModal(e)));
+      projectLabels.forEach(projectLabel => {
+        projectLabel.addEventListener("click", (e) => this.#setEditProjectModal(e));
+      });
     }
   }
 
@@ -77,19 +78,13 @@ class ProjectsController {
   }
 
   static #setEditProjectModal(e) {
-    const projectId = e.target.dataset.projectId;
+    const projectId = e.currentTarget.dataset.projectId;
     const project = this.#projects[projectId];
-    console.log('setting edit project modal');
-    console.log(`project:`);
-    console.log(project);
     DisplayController.changeModalContents(DisplayController.newProjectForm(project));
     const newTodoButton = document.querySelector("#new-todo");
     const saveNewProjectButton = document.querySelector("#new-project-save");
     newTodoButton.addEventListener("click", (e) => this.#addTodoToNewProject(e));
     saveNewProjectButton.addEventListener("click", (e) => this.#saveNewProject(e));
-    console.log('finished setting edit project modal');
-    // DisplayController.createNewProjectModal(project);
-    // DisplayController.updateProjectDisplay(project);
   }
 
   static #addTodoToNewProject(e) {

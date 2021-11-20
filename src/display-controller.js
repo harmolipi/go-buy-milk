@@ -56,7 +56,6 @@ class DisplayController {
 
   static #clearModal() {
     const projectsModal = document.querySelector('#projects-modal-container');
-    console.log(projectsModal);
     while(projectsModal.firstChild) {
       projectsModal.removeChild(projectsModal.firstChild);
     }
@@ -240,13 +239,9 @@ class DisplayController {
   }
 
   static changeModalContents(modalBodyContents) {
-    console.log('before clear');
     this.#clearModal();
-    console.log('after clear');
     const modalBody = document.querySelector('#projects-modal-container');
     modalBody.appendChild(modalBodyContents);
-    console.log(`new modal contents:`);
-    console.log(modalBodyContents);
   }
 
   static newProjectForm(project) {
@@ -271,7 +266,7 @@ class DisplayController {
     projectTitle.setAttribute('placeholder', 'My New Project');
     projectTitle.setAttribute('type', 'text');
     projectTitle.setAttribute('id', 'new-project-title-input');
-    projectTitle.value = project ? project.title : '';
+    projectTitle.value = project ? project.name : '';
 
     const projectTodosHeader = document.createElement('h3');
     projectTodosHeader.textContent = 'Todos:';
@@ -299,10 +294,17 @@ class DisplayController {
     projectBody.appendChild(projectTodosHeader);
     projectBody.appendChild(projectTodos);
     projectTodos.appendChild(todoList);
-    todoList.appendChild(this.#createNewTodoForm());
     projectSaveRow.appendChild(projectSaveContainer);
     projectSaveContainer.appendChild(projectSaveButton);
     projectBody.appendChild(projectSaveRow);
+
+    if(project) {
+      project.todoItems.forEach(todo => {
+        todoList.appendChild(this.#createNewTodoForm(todo));
+      });
+    }
+    
+    todoList.appendChild(this.#createNewTodoForm());
 
     return newProjectContainer;
   }
