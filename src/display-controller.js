@@ -408,20 +408,6 @@ class DisplayController {
     // editButtonLabel.classList.add('edit-button', 'paper-btn', 'badge', 'warning', 'pa2');
     // editButtonLabel.textContent = 'Edit';
 
-    const editProjectInput = document.createElement('input');
-    editProjectInput.setAttribute('id', `new-project-modal`);
-    editProjectInput.setAttribute('type', 'checkbox');
-    editProjectInput.classList.add('modal-state');
-
-    // const editModalContainer = document.createElement('div');
-    // editModalContainer.classList.add('modal');
-
-    // const editModalLabel = document.createElement('label');
-    // editModalLabel.setAttribute('for', 'edit-modal-input');
-    // editModalLabel.classList.add('modal-bg');
-
-    const editModal = this.createNewProjectModal(this.newProjectForm(project), `edit-button-input-${project.id}`);
-
     const projectTitle = document.createElement('h3');
     projectTitle.classList.add('project-title', 'card-title');
     projectTitle.textContent = project.name;
@@ -590,30 +576,17 @@ class DisplayController {
     projectTodo.classList.add('project-todo', 'relative', 'db', 'mt2');
     projectTodo.dataset.todoId = `${todo.projectId}-${todo.id}`;
 
+    const todoLabelGroup = document.createElement('fieldset');
+    todoLabelGroup.classList.add('form-group');
 
-    const todoLabel = document.createElement('label');
-    todoLabel.classList.add('todo-label', 'dib', 'mw-100', 'pl3', 'mv1');
+    const todoLabel = document.createElement('div');
+    todoLabel.classList.add('todo-label', 'dib', 'mw-100', 'pl3', 'mv1', 'paper-check', 'flex', 'flex-nowrap', 'items-center');
 
     const todoInput = document.createElement('input');
-    todoInput.classList.add('todo-input', 'absolute', 'nl3', 'mt1');
+    todoInput.classList.add('todo-input', 'absolute', 'nl3', 'h1', 'w1');
     todoInput.type = 'checkbox';
+    todoInput.dataset.todoId = todo.id;
     if (todo.completed) todoInput.checked = true;
-
-    const todoTitle = document.createElement('div');
-    todoTitle.classList.add('todo-title', 'f3');
-    todoTitle.innerText = todo.title;
-
-    switch(todo.priority) {
-      case 'high':
-        todoTitle.classList.add('red');
-        break;
-      case 'medium':
-        todoTitle.classList.add('gold');
-        break;
-      case 'low':
-        todoTitle.classList.add('green');
-        break;
-    }
 
     const todoDescription = document.createElement('span');
     todoDescription.classList.add('todo-description', 'mv1');
@@ -622,18 +595,64 @@ class DisplayController {
     const todoInfo = document.createElement('div');
     todoInfo.classList.add('todo-info', 'mv1');
 
-    const todoDueDate = document.createElement('span');
-    todoDueDate.classList.add('todo-due-date', 'card-subtitle');
-    todoDueDate.innerText = todo.dueDate;
-
     projectTodo.appendChild(todoLabel);
     todoLabel.appendChild(todoInput);
-    todoLabel.appendChild(todoTitle);
-    todoLabel.appendChild(todoDescription);
-    todoLabel.appendChild(todoInfo);
-    todoInfo.appendChild(todoDueDate);
+
+    todoLabel.appendChild(this.#displayCollapsibleTodo(todo));
 
     return projectTodo;
+  }
+
+  static #displayCollapsibleTodo(todo) {
+    const todoCollapsibleContainer = document.createElement('div');
+    todoCollapsibleContainer.classList.add('collapsible');
+
+    const todoCollapsibleInput = document.createElement('input');
+    todoCollapsibleInput.setAttribute('id', `collapsible${todo.projectId}${todo.id}`);
+    todoCollapsibleInput.setAttribute('type', 'checkbox');
+    todoCollapsibleInput.setAttribute('name', 'collapsible');
+
+    const todoTitle = document.createElement('label');
+    todoTitle.setAttribute('for', `collapsible${todo.projectId}${todo.id}`)
+    todoTitle.classList.add('todo-title');
+    todoTitle.style.textAlign = 'left';
+
+    const todoTitleText = document.createElement('span');
+    todoTitleText.classList.add('todo-title-text', 'f3');
+    todoTitleText.textContent = todo.title;
+
+    const todoDate = document.createElement('span');
+    todoDate.classList.add('todo-date', 'f6');
+    todoDate.textContent = todo.dueDate
+
+    const todoDescriptionContainer = document.createElement('div');
+    todoDescriptionContainer.classList.add('collapsible-body');
+
+    const todoDescription = document.createElement('span');
+    todoDescription.classList.add('todo-description', 'mv1');
+    todoDescription.textContent = todo.description;
+
+    todoCollapsibleContainer.appendChild(todoCollapsibleInput);
+    todoCollapsibleContainer.appendChild(todoTitle);
+    todoTitle.appendChild(todoTitleText);
+    todoTitle.appendChild(document.createElement('br'));
+    todoTitle.appendChild(todoDate);
+    todoCollapsibleContainer.appendChild(todoDescriptionContainer);
+    todoDescriptionContainer.appendChild(todoDescription);
+
+    switch(todo.priority) {
+      case 'high':
+        todoTitleText.classList.add('red');
+        break;
+      case 'medium':
+        todoTitleText.classList.add('gold');
+        break;
+      case 'low':
+        todoTitleText.classList.add('green');
+        break;
+    }
+
+    return todoCollapsibleContainer;
   }
 }
 
