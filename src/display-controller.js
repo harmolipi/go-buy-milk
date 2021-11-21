@@ -343,18 +343,84 @@ class DisplayController {
     projectTodo.classList.add('project-todo', 'relative', 'db', 'mt2');
     projectTodo.dataset.todoId = `${todo.project_id}-${todo.id}`;
 
-
-    const todoLabel = document.createElement('label');
-    todoLabel.classList.add('todo-label', 'dib', 'mw-100', 'pl3', 'mv1');
+    const todoLabel = document.createElement('div');
+    todoLabel.classList.add('todo-label', 'dib', 'mw-100', 'pl3', 'mv1', 'form-group');
 
     const todoInput = document.createElement('input');
     todoInput.classList.add('todo-input', 'absolute', 'nl3', 'mt1');
     todoInput.type = 'checkbox';
+    todoInput.dataset.todoId = todo.id;
     if (todo.completed) todoInput.checked = true;
 
-    const todoTitle = document.createElement('div');
-    todoTitle.classList.add('todo-title', 'f3');
-    todoTitle.innerText = todo.title;
+    
+
+    // switch(todo.priority) {
+    //   case 'high':
+    //     todoTitle.classList.add('red');
+    //     break;
+    //   case 'medium':
+    //     todoTitle.classList.add('gold');
+    //     break;
+    //   case 'low':
+    //     todoTitle.classList.add('green');
+    //     break;
+    // }
+
+    const todoDescription = document.createElement('span');
+    todoDescription.classList.add('todo-description', 'mv1');
+    todoDescription.innerText = todo.description;
+
+    const todoInfo = document.createElement('div');
+    todoInfo.classList.add('todo-info', 'mv1');
+
+    // const todoDueDate = document.createElement('span');
+    // todoDueDate.classList.add('todo-due-date', 'card-subtitle');
+    // todoDueDate.innerText = todo.dueDate;
+
+    projectTodo.appendChild(todoLabel);
+    todoLabel.appendChild(todoInput);
+
+    // todoLabel.appendChild(todoCollapsibleContainer);
+    // todoCollapsibleContainer.appendChild(todoCollapsibleInput);
+    // todoCollapsibleContainer.appendChild(todoTitle);
+    // todoCollapsibleContainer.appendChild(todoDescriptionContainer);
+    // todoDescriptionContainer.appendChild(todoDescription);
+
+    todoLabel.appendChild(this.#displayCollapsibleTodo(todo));
+
+    // todoLabel.appendChild(todoTitle);
+    // todoLabel.appendChild(todoDescription);
+    // todoLabel.appendChild(todoInfo);
+    // todoInfo.appendChild(todoDueDate);
+
+    return projectTodo;
+  }
+
+  static #displayCollapsibleTodo(todo) {
+    const todoCollapsibleContainer = document.createElement('div');
+    todoCollapsibleContainer.classList.add('collapsible');
+
+    const todoCollapsibleInput = document.createElement('input');
+    todoCollapsibleInput.setAttribute('id', `collapsible${todo.projectId}${todo.id}`);
+    todoCollapsibleInput.setAttribute('type', 'checkbox');
+    todoCollapsibleInput.setAttribute('name', 'collapsible');
+
+    const todoTitle = document.createElement('label');
+    todoTitle.setAttribute('for', `collapsible${todo.projectId}${todo.id}`)
+    // todoTitle.classList.add('todo-title', 'f3');
+    todoTitle.textContent = `${todo.title} | ${todo.dueDate}`;
+
+    const todoDescriptionContainer = document.createElement('div');
+    todoDescriptionContainer.classList.add('collapsible-body');
+
+    const todoDescription = document.createElement('span');
+    // todoDescription.classList.add('todo-description', 'mv1');
+    todoDescription.textContent = todo.description;
+
+    todoCollapsibleContainer.appendChild(todoCollapsibleInput);
+    todoCollapsibleContainer.appendChild(todoTitle);
+    todoCollapsibleContainer.appendChild(todoDescriptionContainer);
+    todoDescriptionContainer.appendChild(todoDescription);
 
     switch(todo.priority) {
       case 'high':
@@ -368,25 +434,15 @@ class DisplayController {
         break;
     }
 
-    const todoDescription = document.createElement('span');
-    todoDescription.classList.add('todo-description', 'mv1');
-    todoDescription.innerText = todo.description;
+    return todoCollapsibleContainer;
 
-    const todoInfo = document.createElement('div');
-    todoInfo.classList.add('todo-info', 'mv1');
-
-    const todoDueDate = document.createElement('span');
-    todoDueDate.classList.add('todo-due-date', 'card-subtitle');
-    todoDueDate.innerText = todo.dueDate;
-
-    projectTodo.appendChild(todoLabel);
-    todoLabel.appendChild(todoInput);
-    todoLabel.appendChild(todoTitle);
-    todoLabel.appendChild(todoDescription);
-    todoLabel.appendChild(todoInfo);
-    todoInfo.appendChild(todoDueDate);
-
-    return projectTodo;
+    // <div class="collapsible">
+    //   <input id="collapsible1" type="checkbox" name="collapsible">
+    //   <label for="collapsible1">First</label>
+    //   <div class="collapsible-body">
+    //     <span>Bacon ipsum dolor sit amet landjaeger sausage brisket, jerky drumstick fatback boudin ball tip turducken...</span>
+    //   </div>
+    // </div>
   }
 }
 

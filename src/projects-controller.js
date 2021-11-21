@@ -10,7 +10,7 @@ class ProjectsController {
     this.#projects = [];
     this.#newProject = newProject();
     // this.#setDefault();
-    // this.#setDevDefaults();
+    this.#setDevDefaults();
     this.#updateProjects();
     this.#setEventListeners();
   }
