@@ -1,5 +1,6 @@
 import { newProject, generateDefault, generateDevDefault } from "./default-project-module";
 import { TodoItem } from "./todo-item-module";
+import { Project } from "./project-module";
 import { DisplayController } from "./display-controller";
 
 class ProjectsController {
@@ -8,9 +9,10 @@ class ProjectsController {
 
   static initialize() {
     this.#projects = [];
+    this.#loadProjects();
     this.#newProject = newProject();
     // this.#setDefault();
-    this.#setDevDefaults();
+    // this.#setDevDefaults();
     this.#updateProjects();
     this.#setEventListeners();
   }
@@ -25,14 +27,38 @@ class ProjectsController {
   }
 
   static #updateProjects() {
-    let tempProjects = this.#projects.slice();
-    this.#clearProjects();
-    tempProjects.forEach((project) => {
-      this.#projects.push(project);
-      project.id = this.#projects.length - 1;
-      project.updateTodoList();
-    });
+    if(this.#projects.length > 0) {
+      let tempProjects = this.#projects.slice();
+      this.#clearProjects();
+      tempProjects.forEach((project) => {
+        this.#projects.push(project);
+        project.id = this.#projects.length - 1;
+        project.updateTodoList();
+      });
+      this.#saveProjects();
+    }
     this.updateEventListeners();
+  }
+
+  static #saveProjects() {
+    localStorage.setItem('projects', JSON.stringify(this.#projects));
+  }
+
+  static #loadProjects() {
+    const projects = JSON.parse(localStorage.getItem('projects'));
+    console.log('loading');
+    console.log(projects);
+    console.log(projects[0]);
+    if(projects) {
+      projects.forEach((project) => {
+        let newProject = new Project(project.name, project.id);
+        project.todoItems.forEach((todo) => {
+          let newTodo = new TodoItem(todo.title, todo.description, todo.dueDate, todo.priority, todo.completed, todo.projectId, todo.id);
+          newProject.addTodo(newTodo);
+        });
+        this.addProject(newProject);
+      });
+    }
   }
 
   static #clearProjects() {
