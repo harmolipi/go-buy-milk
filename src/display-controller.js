@@ -265,24 +265,22 @@ class DisplayController {
     todoTitle.setAttribute('placeholder', 'Todo Title');
     todoTitle.setAttribute('type', 'text');
     todoTitle.setAttribute('id', project ? `newTodoTitle${project.id}` : 'new-todo-title');
-    // todoTitle.setAttribute('id', 'new-todo-title');
+    todoTitle.style.display = 'block';
     todoTitle.classList.add('mv2');
 
     const todoDescription = document.createElement('textarea');
     todoDescription.setAttribute('placeholder', 'Task description');
     todoDescription.setAttribute('id', project ? `newTodoDescription${project.id}` : 'new-todo-description');
-    // todoDescription.setAttribute('id', 'new-todo-description');
     todoDescription.classList.add('mv2');
 
     const dueDate = document.createElement('input');
     dueDate.setAttribute('type', 'date');
     dueDate.setAttribute('id', project ? `newTodoDate${project.id}` : 'new-todo-date');
-    // dueDate.setAttribute('id', 'new-todo-date');
-    todoDescription.classList.add('mv2');
+    dueDate.style.display = 'block';
+    dueDate.classList.add('mv2');
 
     const todoPriority = document.createElement('select');
     todoPriority.setAttribute('id', project ? `newTodoPriority${project.id}` : 'new-todo-priority');
-    // todoPriority.setAttribute('id', 'new-todo-priority');
     todoPriority.classList.add('mv2');
     
     const lowPriority = document.createElement('option');
@@ -342,7 +340,28 @@ class DisplayController {
       projectTodos.appendChild(this.#displayTodoItem(todo));
     }
 
-    projectTodos.appendChild(this.#createNewTodoForm(project));
+    const todoCollapsibleFormContainer = document.createElement('div');
+    todoCollapsibleFormContainer.classList.add('collapsible', 'w-100');
+
+    const todoCollapsibleFormInput = document.createElement('input');
+    todoCollapsibleFormInput.setAttribute('id', `collapsibleForm${project.id}`);
+    todoCollapsibleFormInput.setAttribute('type', 'checkbox');
+    todoCollapsibleFormInput.setAttribute('name', 'collapsible');
+
+    const todoOpenForm = document.createElement('label');
+    todoOpenForm.setAttribute('for', `collapsibleForm${project.id}`)
+    todoOpenForm.classList.add('todo-open-form');
+    todoOpenForm.style.textAlign = 'left';
+    todoOpenForm.textContent = 'Add another task';
+
+    const todoFormContainer = document.createElement('div');
+    todoFormContainer.classList.add('collapsible-body');
+
+    projectTodos.appendChild(todoCollapsibleFormContainer);
+    todoCollapsibleFormContainer.appendChild(todoCollapsibleFormInput);
+    todoCollapsibleFormContainer.appendChild(todoOpenForm);
+    todoCollapsibleFormContainer.appendChild(todoFormContainer);
+    todoFormContainer.appendChild(this.#createNewTodoForm(project));
 
     return projectContainer;
   }
@@ -381,7 +400,7 @@ class DisplayController {
 
   static #displayCollapsibleTodo(todo) {
     const todoCollapsibleContainer = document.createElement('div');
-    todoCollapsibleContainer.classList.add('collapsible');
+    todoCollapsibleContainer.classList.add('collapsible', 'w-100');
 
     const todoCollapsibleInput = document.createElement('input');
     todoCollapsibleInput.setAttribute('id', `collapsible${todo.projectId}${todo.id}`);
