@@ -315,10 +315,6 @@ class DisplayController {
     const projectBody = document.createElement('div');
     projectBody.classList.add('project-body', 'card-body', 'overflow-scroll');
 
-    const editButton = document.createElement('button');
-    editButton.classList.add('edit-button', 'badge', 'warning', 'pa1', 'absolute', 'right-1');
-    editButton.textContent = 'Edit';
-
     const projectTitle = document.createElement('h3');
     projectTitle.classList.add('project-title', 'card-title', 'pt3');
     projectTitle.textContent = project.name;
