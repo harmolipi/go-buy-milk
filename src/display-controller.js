@@ -384,8 +384,9 @@ class DisplayController {
     todoLabel.classList.add('todo-label', 'dib', 'mw-100', 'pl3', 'mv0', 'paper-check', 'flex', 'flex-nowrap', 'items-center');
 
     const todoInput = document.createElement('input');
-    todoInput.classList.add('todo-input', 'absolute', 'nl3', 'h1', 'w1');
+    todoInput.classList.add('todo-checkbox', 'absolute', 'nl3', 'h1', 'w1');
     todoInput.type = 'checkbox';
+    todoInput.dataset.listId = todo.listId;
     todoInput.dataset.todoId = todo.id;
     if (todo.completed) todoInput.checked = true;
 

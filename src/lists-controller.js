@@ -81,9 +81,11 @@ class ListsController {
     const deleteListButtons = document.querySelectorAll(".delete-list-button");
     const deleteTodoButtons = document.querySelectorAll('.delete-button');
     const updateTodoButtons = document.querySelectorAll('.update-todos');
+    const todoCheckboxes = document.querySelectorAll('.todo-checkbox');
     if(deleteListButtons) deleteListButtons.forEach(button => button.addEventListener('click', (e) => this.#deleteList(e)));
     if(deleteTodoButtons) deleteTodoButtons.forEach(button => button.addEventListener('click', (e) => this.#deleteTodoItem(e)));
     if(updateTodoButtons) updateTodoButtons.forEach(button => button.addEventListener('click', (e) => this.#addTodoItem(e)));
+    if(todoCheckboxes) todoCheckboxes.forEach(checkbox => checkbox.addEventListener('change', (e) => this.#toggleTodoCompleted(e)));
   }
 
   static #deleteList(e) {
@@ -119,6 +121,15 @@ class ListsController {
     e.preventDefault();
     const list = this.#lists[e.currentTarget.dataset.listId];
     list.removeTodo(e.currentTarget.dataset.todoId);
+    this.#updateLists();
+    DisplayController.updateDisplay(this.#lists);
+  }
+
+  static #toggleTodoCompleted(e) {
+    e.preventDefault();
+    const list = this.#lists[e.currentTarget.dataset.listId];
+    const todo = list.todoItems[e.currentTarget.dataset.todoId];
+    todo.completed = e.currentTarget.checked;
     this.#updateLists();
     DisplayController.updateDisplay(this.#lists);
   }
