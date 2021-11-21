@@ -41,6 +41,7 @@ class DisplayController {
 
     this.#clearProjectForm();
     this.#clearTodoListForm();
+    ProjectsController.updateEventListeners();
   }
 
   static clearProjects(element) {
@@ -395,6 +396,8 @@ class DisplayController {
     todoDescription.textContent = todo.description;
 
     const deleteButton = document.createElement('button');
+    deleteButton.dataset.projectId = todo.projectId;
+    deleteButton.dataset.todoId = todo.id;
     deleteButton.classList.add('delete-button', 'badge', 'danger', 'pa1', 'absolute', 'top-1', 'right-0');
     deleteButton.textContent = 'Delete';
 

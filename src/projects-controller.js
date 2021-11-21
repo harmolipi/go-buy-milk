@@ -32,6 +32,7 @@ class ProjectsController {
       project.id = this.#projects.length - 1;
       project.updateTodoList();
     });
+    this.updateEventListeners();
   }
 
   static #clearProjects() {
@@ -51,6 +52,12 @@ class ProjectsController {
     const saveNewProjectButton = document.querySelector("#new-project-save");
     newTodoButton.addEventListener("click", (e) => this.#addTodoToNewProject(e));
     saveNewProjectButton.addEventListener("click", (e) => this.#saveNewProject(e));
+    this.updateEventListeners();
+  }
+
+  static updateEventListeners() {
+    const deleteTodoButtons = document.querySelectorAll('.delete-button');
+    if(deleteTodoButtons) deleteTodoButtons.forEach(button => button.addEventListener('click', (e) => this.#deleteTodoItem(e)));
   }
 
   static #addTodoToNewProject(e) {
@@ -71,6 +78,15 @@ class ProjectsController {
     this.#newProject.name = newProjectTitle;
     this.#projects.push(this.#newProject);
     this.#newProject = newProject();
+    this.#updateProjects();
+    DisplayController.updateDisplay(this.#projects);
+  }
+
+  static #deleteTodoItem(e) {
+    e.preventDefault();
+    const project = this.#projects[e.currentTarget.dataset.projectId];
+    const todo = project.todoItems[e.currentTarget.dataset.todoId];
+    project.removeTodo(e.currentTarget.dataset.todoId);
     this.#updateProjects();
     DisplayController.updateDisplay(this.#projects);
   }

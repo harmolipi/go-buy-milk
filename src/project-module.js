@@ -14,6 +14,11 @@ class Project {
     this.updateTodoList();
   }
 
+  removeTodo(todoId) {
+    this.todoItems.splice(todoId, 1);
+    this.updateTodoList();
+  }
+
   updateTodoList() {
     let tempTodos = this.todoItems.slice();
     this.#clearTodos();
