@@ -1,4 +1,4 @@
-import { newList, generateDefault, generateDevDefault } from "./default-list-module";
+import { newList, generateDevDefault } from "./default-list-module";
 import { TodoItem } from "./todo-item-module";
 import { List } from "./list-module";
 import { DisplayController } from "./display-controller";
@@ -11,8 +11,7 @@ class ListsController {
     this.#lists = [];
     this.#loadLists();
     this.#newList = newList();
-    // this.#setDefault();
-    // this.#setDevDefaults();
+    // this.#setDevDefaults(); // For development testing
     this.#updateLists();
     this.#setEventListeners();
   }
