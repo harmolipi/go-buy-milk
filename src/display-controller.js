@@ -316,14 +316,13 @@ class DisplayController {
     projectBody.classList.add('project-body', 'card-body', 'overflow-scroll');
 
     const projectTitle = document.createElement('h3');
-    projectTitle.classList.add('project-title', 'card-title', 'pt3');
+    projectTitle.classList.add('project-title', 'card-title');
     projectTitle.textContent = project.name;
 
     const projectTodos = document.createElement('div');
     projectTodos.classList.add('project-todos', 'mt-4');
 
     projectContainer.appendChild(projectBody);
-    projectBody.appendChild(editButton);
     projectBody.appendChild(projectTitle);
     projectBody.appendChild(projectTodos);
 
@@ -381,7 +380,7 @@ class DisplayController {
     todoTitle.style.textAlign = 'left';
 
     const todoTitleText = document.createElement('span');
-    todoTitleText.classList.add('todo-title-text', 'f3');
+    todoTitleText.classList.add('todo-title-text', 'f3', 'mr3');
     todoTitleText.textContent = todo.title;
 
     const todoDate = document.createElement('span');
@@ -395,12 +394,17 @@ class DisplayController {
     todoDescription.classList.add('todo-description', 'mv1');
     todoDescription.textContent = todo.description;
 
+    const deleteButton = document.createElement('button');
+    deleteButton.classList.add('delete-button', 'badge', 'danger', 'pa1', 'absolute', 'top-1', 'right-0');
+    deleteButton.textContent = 'Delete';
+
     todoCollapsibleContainer.appendChild(todoCollapsibleInput);
     todoCollapsibleContainer.appendChild(todoTitle);
     todoTitle.appendChild(todoTitleText);
     todoTitle.appendChild(document.createElement('br'));
     todoTitle.appendChild(todoDate);
     todoCollapsibleContainer.appendChild(todoDescriptionContainer);
+    todoDescriptionContainer.appendChild(deleteButton);
     todoDescriptionContainer.appendChild(todoDescription);
 
     switch(todo.priority) {
