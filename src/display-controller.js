@@ -64,6 +64,7 @@ class DisplayController {
   static updateTodoList(project) {
     const projectContainer = document.querySelector(`[data-project-id="${project.id}"]`);
     const todoList = projectContainer.querySelector('.project-todos');
+    console.log(todoList);
     this.clearTodoList(todoList);
     const horizontalRule = document.createElement('hr');
 
@@ -241,6 +242,8 @@ class DisplayController {
   static changeModalContents(modalBodyContents) {
     this.#clearModal();
     const modalBody = document.querySelector('#projects-modal-container');
+    console.log('modal body contents:');
+    console.log(modalBodyContents);
     modalBody.appendChild(modalBodyContents);
   }
 
@@ -274,7 +277,7 @@ class DisplayController {
     const projectTodos = document.createElement('div');
     projectTodos.classList.add('project-todos', 'mt-4');
 
-    const todoList = document.createElement('div');
+    // const todoList = document.createElement('div');
 
     const projectSaveRow = document.createElement('div');
     projectSaveRow.classList.add('row');
@@ -293,18 +296,18 @@ class DisplayController {
     projectTitleContainer.appendChild(projectTitle);
     projectBody.appendChild(projectTodosHeader);
     projectBody.appendChild(projectTodos);
-    projectTodos.appendChild(todoList);
+    // projectTodos.appendChild(todoList);
     projectSaveRow.appendChild(projectSaveContainer);
     projectSaveContainer.appendChild(projectSaveButton);
     projectBody.appendChild(projectSaveRow);
 
-    if(project) {
+    if(project && project.todoItems) {
       project.todoItems.forEach(todo => {
-        todoList.appendChild(this.#createNewTodoForm(todo));
+        projectTodos.appendChild(this.#createNewTodoForm(todo));
       });
     }
-    
-    todoList.appendChild(this.#createNewTodoForm());
+
+    projectTodos.appendChild(this.#createNewTodoForm());
 
     return newProjectContainer;
   }
@@ -373,7 +376,7 @@ class DisplayController {
   }
 
   // Turning the whole project display into a label button to pop it up in a modal
-  static displayProject(project, editing) {
+  static displayProject(project) {
     const projectContainer = document.createElement('div');
     projectContainer.classList.add('project-container', 'card', 'ma2', 'w5', 'h5');
 
@@ -439,11 +442,7 @@ class DisplayController {
     projectBody.appendChild(projectTodos);
     // modalContainer.appendChild(editModal);
 
-    if(editing) {
-      project.todoItems.forEach(todo => {
-        projectTodos.appendChild(this.#createNewTodoForm(todo));
-      });
-    } else{
+    if(project.todoItems) {
       for(const todo of project.todoItems) {
         projectTodos.appendChild(this.#displayTodoItem(todo));
       }
