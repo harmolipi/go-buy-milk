@@ -304,7 +304,8 @@ class DisplayController {
     } else {
       submitTodo.setAttribute('id', 'new-todo');
     }
-    submitTodo.classList.add('update-todos', 'btn-secondary', 'mv2');
+    if(submitTodo.id != 'new-todo') submitTodo.classList.add('update-todos');
+    submitTodo.classList.add('btn-secondary', 'mv2');
     submitTodo.textContent = 'Add task';
 
     todoFormContainer.appendChild(todoTitle);
