@@ -1,9 +1,9 @@
 import { DisplayController } from './display-controller';
-import { ProjectsController } from './projects-controller';
+import { ListsController } from './lists-controller';
 
 const pageLoad = () => {
   DisplayController.initialize();
-  ProjectsController.initialize();
+  ListsController.initialize();
   DisplayController.updateDisplay();
 };
 

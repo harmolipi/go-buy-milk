@@ -1,4 +1,4 @@
-class Project {
+class List {
   name;
   id;
   todoItems;
@@ -23,7 +23,7 @@ class Project {
     let tempTodos = this.todoItems.slice();
     this.#clearTodos();
     tempTodos.forEach((todo) => {
-      todo.projectId = this.id;
+      todo.listId = this.id;
       this.todoItems.push(todo);
       todo.id = this.todoItems.length - 1;
     });
@@ -34,4 +34,4 @@ class Project {
   }
 }
 
-export { Project };
+export { List };
