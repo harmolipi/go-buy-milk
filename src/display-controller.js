@@ -368,14 +368,14 @@ class DisplayController {
 
   static #displayTodoItem(todo) {
     const projectTodo = document.createElement("div");
-    projectTodo.classList.add('project-todo', 'relative', 'db', 'mt2');
+    projectTodo.classList.add('project-todo', 'relative', 'db');
     projectTodo.dataset.todoId = `${todo.project_id}-${todo.id}`;
 
     const todoLabelGroup = document.createElement('fieldset');
     todoLabelGroup.classList.add('form-group');
 
     const todoLabel = document.createElement('div');
-    todoLabel.classList.add('todo-label', 'dib', 'mw-100', 'pl3', 'mv1', 'paper-check', 'flex', 'flex-nowrap', 'items-center');
+    todoLabel.classList.add('todo-label', 'dib', 'mw-100', 'pl3', 'mv0', 'paper-check', 'flex', 'flex-nowrap', 'items-center');
 
     const todoInput = document.createElement('input');
     todoInput.classList.add('todo-input', 'absolute', 'nl3', 'h1', 'w1');
