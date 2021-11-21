@@ -332,9 +332,15 @@ class DisplayController {
     const projectTodos = document.createElement('div');
     projectTodos.classList.add('project-todos', 'mt-4');
 
+    const deleteProjectButton = document.createElement('button');
+    deleteProjectButton.dataset.projectId = project.id;
+    deleteProjectButton.classList.add('delete-project-button', 'badge', 'danger', 'pa1', 'ma3', 'b1', 'r1');
+    deleteProjectButton.textContent = 'Delete Project';
+
     projectContainer.appendChild(projectBody);
     projectBody.appendChild(projectTitle);
     projectBody.appendChild(projectTodos);
+    projectBody.appendChild(deleteProjectButton);
 
     for(const todo of project.todoItems) {
       projectTodos.appendChild(this.#displayTodoItem(todo));
@@ -413,7 +419,7 @@ class DisplayController {
     todoTitle.style.textAlign = 'left';
 
     const todoTitleText = document.createElement('span');
-    todoTitleText.classList.add('todo-title-text', 'f3', 'mr3');
+    todoTitleText.classList.add('todo-title-text', 'f3', 'mr4');
     todoTitleText.textContent = todo.title;
 
     const todoDate = document.createElement('span');
@@ -427,11 +433,11 @@ class DisplayController {
     todoDescription.classList.add('todo-description', 'mv1');
     todoDescription.textContent = todo.description;
 
-    const deleteButton = document.createElement('button');
-    deleteButton.dataset.projectId = todo.projectId;
-    deleteButton.dataset.todoId = todo.id;
-    deleteButton.classList.add('delete-button', 'badge', 'danger', 'pa1', 'absolute', 'top-1', 'right-0');
-    deleteButton.textContent = 'Delete';
+    const deleteTodoButton = document.createElement('button');
+    deleteTodoButton.dataset.projectId = todo.projectId;
+    deleteTodoButton.dataset.todoId = todo.id;
+    deleteTodoButton.classList.add('delete-button', 'badge', 'danger', 'pa1', 'absolute', 'top-1', 'right-0');
+    deleteTodoButton.textContent = 'Delete';
 
     todoCollapsibleContainer.appendChild(todoCollapsibleInput);
     todoCollapsibleContainer.appendChild(todoTitle);
@@ -439,7 +445,7 @@ class DisplayController {
     todoTitle.appendChild(document.createElement('br'));
     todoTitle.appendChild(todoDate);
     todoCollapsibleContainer.appendChild(todoDescriptionContainer);
-    todoDescriptionContainer.appendChild(deleteButton);
+    todoDescriptionContainer.appendChild(deleteTodoButton);
     todoDescriptionContainer.appendChild(todoDescription);
 
     switch(todo.priority) {

@@ -35,8 +35,8 @@ class ProjectsController {
         project.id = this.#projects.length - 1;
         project.updateTodoList();
       });
-      this.#saveProjects();
     }
+    this.#saveProjects();
     this.updateEventListeners();
   }
 
@@ -46,9 +46,6 @@ class ProjectsController {
 
   static #loadProjects() {
     const projects = JSON.parse(localStorage.getItem('projects'));
-    console.log('loading');
-    console.log(projects);
-    console.log(projects[0]);
     if(projects) {
       projects.forEach((project) => {
         let newProject = new Project(project.name, project.id);
@@ -82,10 +79,19 @@ class ProjectsController {
   }
 
   static updateEventListeners() {
+    const deleteProjectButtons = document.querySelectorAll(".delete-project-button");
     const deleteTodoButtons = document.querySelectorAll('.delete-button');
     const updateTodoButtons = document.querySelectorAll('.update-todos');
+    if(deleteProjectButtons) deleteProjectButtons.forEach(button => button.addEventListener('click', (e) => this.#deleteProject(e)));
     if(deleteTodoButtons) deleteTodoButtons.forEach(button => button.addEventListener('click', (e) => this.#deleteTodoItem(e)));
     if(updateTodoButtons) updateTodoButtons.forEach(button => button.addEventListener('click', (e) => this.#addTodoItem(e)));
+  }
+
+  static #deleteProject(e) {
+    e.preventDefault();
+    this.#projects.splice(e.currentTarget.dataset.projectId, 1);
+    this.#updateProjects();
+    DisplayController.updateDisplay(this.#projects);
   }
 
   static #addTodoToNewProject(e) {
