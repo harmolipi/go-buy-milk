@@ -47,49 +47,6 @@ class ProjectsController {
   }
 
   static #setEventListeners() {
-    const newProjectButton = document.querySelector("#new-project-button");
-    const newTodoButton = document.querySelector("#new-todo");
-    const saveNewProjectButton = document.querySelector("#new-project-save");
-    const editButtons = document.querySelectorAll(".edit-button");
-    newProjectButton.addEventListener("click", (e) => this.#setNewProjectModal(e));
-    // newTodoButton.addEventListener("click", (e) => this.#addTodoToNewProject(e));
-    // saveNewProjectButton.addEventListener("click", (e) => this.#saveNewProject(e));
-    // editButtons.forEach(editButton => {
-    //   editButton.addEventListener("click", (e) => this.#editProject(e));
-    // })
-  }
-
-  static updateProjectEventListeners() {
-    console.log('updating project event listeners');
-    const newTodoButton = document.querySelector("#new-todo");
-    const projectLabels = document.querySelectorAll(".project-labels");
-    const saveNewProjectButton = document.querySelector("#new-project-save");
-    if(projectLabels) {
-      projectLabels.forEach(projectLabel => {
-        // projectLabel.addEventListener("click", (e) => this.#setEditProjectModal(e));
-        projectLabel.addEventListener("click", (e) => this.#setViewProjectModal(e));
-      });
-    }
-    if(newTodoButton) newTodoButton.addEventListener("click", (e) => this.#addTodoToNewProject(e));
-    if(saveNewProjectButton) saveNewProjectButton.addEventListener("click", (e) => this.#saveNewProject(e));
-  }
-
-  static #setNewProjectModal(e) {
-    DisplayController.changeModalContents(DisplayController.newProjectForm());
-    const newTodoButton = document.querySelector("#new-todo");
-    const saveNewProjectButton = document.querySelector("#new-project-save");
-    newTodoButton.addEventListener("click", (e) => this.#addTodoToNewProject(e));
-    saveNewProjectButton.addEventListener("click", (e) => this.#saveNewProject(e));
-  }
-
-  static #setViewProjectModal(e) {
-    DisplayController.changeModalContents(DisplayController.displayProject(e.currentTarget));
-  }
-
-  static #setEditProjectModal(e) {
-    const projectId = e.currentTarget.dataset.projectId;
-    const project = this.#projects[projectId];
-    DisplayController.changeModalContents(DisplayController.newProjectForm(project));
     const newTodoButton = document.querySelector("#new-todo");
     const saveNewProjectButton = document.querySelector("#new-project-save");
     newTodoButton.addEventListener("click", (e) => this.#addTodoToNewProject(e));
@@ -116,16 +73,6 @@ class ProjectsController {
     this.#newProject = newProject();
     this.#updateProjects();
     DisplayController.updateDisplay(this.#projects);
-  }
-
-  static #editProject(e) {
-    e.preventDefault();
-    const projectId = e.target.dataset.projectId;
-    const project = this.#projects[projectId];
-    DisplayController.createNewProjectModal(project);
-    DisplayController.updateProjectDisplay(project);
-    // TODO: turn each edit button into a modal input button and append all the different modal boxes
-    // to each project card, or elsewhere on the main page
   }
 }
 

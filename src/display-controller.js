@@ -7,34 +7,30 @@ class DisplayController {
   static #navbar;
   static #newProjectButton;
   static #newProjectInput;
-  static #modalContainer;
-  // static #newProjectModal;
-  // static #newTodoForm;
+  static #newProjectModal;
+  static #newTodoForm;
 
   static initialize() {
     this.#body = document.querySelector('body');
     this.#content = this.createContentContainer();
     this.#projects = this.createProjectsContainer();
     this.#navbar = this.createNavbar();
-    // this.#newTodoForm = this.#createNewTodoForm();
+    this.#newTodoForm = this.#createNewTodoForm();
     this.#newProjectButton = this.#createNewProjectButton();
     this.#newProjectInput = this.#createNewProjectInput();
-    this.#modalContainer = this.#createBlankModal();
-    // this.#newProjectModal = this.createNewProjectModal(this.#newProjectForm(), 'new-project-modal');
+    this.#newProjectModal = this.#createNewProjectModal(this.#newProjectForm());
 
     this.#body.appendChild(this.#content);
     this.#content.prepend(this.#navbar);
     this.#content.appendChild(this.#projects);
     this.#projects.prepend(this.#newProjectButton);
     this.#projects.appendChild(this.#newProjectInput);
-    // this.#projects.appendChild(this.#newProjectModal);
-    this.#projects.appendChild(this.#modalContainer);
+    this.#projects.appendChild(this.#newProjectModal);
   }
 
   static updateDisplay(display = ProjectsController.projects) {
     this.clearProjects(projects);
-    const newProjectInput = document.querySelector('#projects-modal');
-    // const newProjectInput = document.querySelector('#new-project-modal');
+    const newProjectInput = document.querySelector('#new-project-input');
     newProjectInput.checked = false;
 
     for(const project of display) {
@@ -45,7 +41,6 @@ class DisplayController {
 
     this.#clearProjectForm();
     this.#clearTodoListForm();
-    ProjectsController.updateProjectEventListeners();
   }
 
   static clearProjects(element) {
@@ -54,31 +49,22 @@ class DisplayController {
     }
   }
 
-  static #clearModal() {
-    const projectsModal = document.querySelector('#projects-modal-container');
-    while(projectsModal.firstChild) {
-      projectsModal.removeChild(projectsModal.firstChild);
-    }
-  }
-
   static updateTodoList(project) {
     const projectContainer = document.querySelector(`[data-project-id="${project.id}"]`);
     const todoList = projectContainer.querySelector('.project-todos');
-    console.log(todoList);
     this.clearTodoList(todoList);
-    const horizontalRule = document.createElement('hr');
 
     for(const todo of project.todoItems) {
       let displayTodo = this.#displayTodoItem(todo);
       displayTodo.classList.add('mv3');
       todoList.appendChild(displayTodo);
+      const horizontalRule = document.createElement('hr');
       todoList.appendChild(horizontalRule);
     }
 
     const todoListForm = document.createElement('div');
     todoListForm.classList.add('mv5');
-
-    todoListForm.appendChild(this.#createNewTodoForm());
+    todoListForm.appendChild(this.#newTodoForm);
     todoList.appendChild(todoListForm);
     this.#clearTodoListForm();
   }
@@ -93,8 +79,8 @@ class DisplayController {
     const newProjectModal = document.querySelector('#new-project-modal');
     const title = document.querySelector('#new-project-title-input');
 
-    if(newProjectModal) newProjectModal.scrollTo(0, 0);
-    if(title) title.value = '';
+    newProjectModal.scrollTo(0, 0);
+    title.value = '';
   }
 
   static #clearTodoListForm() {
@@ -103,12 +89,10 @@ class DisplayController {
     const dueDate = document.querySelector('#new-todo-date');
     const priority = document.querySelector('#new-todo-priority');
 
-    if(title) {
-      title.value = '';
-      description.value = '';
-      dueDate.value = '';
-      priority.selectedIndex = 0;
-    }
+    title.value = '';
+    description.value = '';
+    dueDate.value = '';
+    priority.selectedIndex = 0;
   }
 
   static createContentContainer() {
@@ -145,12 +129,11 @@ class DisplayController {
 
   static #createNewProjectButton() {
     const newProjectButton = document.createElement('div');
-    // newProjectButton.setAttribute('id', 'new-project-button');
+    newProjectButton.setAttribute('id', 'new-project-button2');
     newProjectButton.classList.add('mw5', 'pa1', 'ma3', 'flex');
 
     const buttonLabel = document.createElement('label');
-    buttonLabel.setAttribute('for', 'projects-modal');
-    buttonLabel.setAttribute('id', 'new-project-button');
+    buttonLabel.setAttribute('for', 'new-project-input');
     buttonLabel.classList.add('paper-btn', 'bg-white', 'f4', 'f3-ns', 'flex', 'flex-column', 'items-center', 'pa2', 'pa3-ns');
   
     const plusSign = document.createElement('span');
@@ -169,27 +152,27 @@ class DisplayController {
 
   static #createNewProjectInput() {
     const newInput = document.createElement('input');
-    newInput.setAttribute('id', 'projects-modal');
+    newInput.setAttribute('id', 'new-project-input');
     newInput.setAttribute('type', 'checkbox');
     newInput.classList.add('modal-state');
 
     return newInput;
   }
 
-  static createNewProjectModal(modalBody, modalId) {
+  static #createNewProjectModal(modalBody) {
     const newModalContainer = document.createElement('div');
     newModalContainer.classList.add('modal');
 
     const newModalLabel = document.createElement('label');
-    newModalLabel.setAttribute('for', modalId);
+    newModalLabel.setAttribute('for', 'new-project-input');
     newModalLabel.classList.add('modal-bg');
 
     const newModalBody = document.createElement('div');
-    newModalBody.setAttribute('id', modalId);
+    newModalBody.setAttribute('id', 'new-project-modal');
     newModalBody.classList.add('modal-body', 'overflow-scroll');
 
     const closeLabel = document.createElement('label');
-    closeLabel.setAttribute('for', modalId);
+    closeLabel.setAttribute('for', 'new-project-input');
     closeLabel.classList.add('btn-close');
     closeLabel.textContent = 'X';
 
@@ -206,7 +189,7 @@ class DisplayController {
 
       const textContent = document.createElement('p');
       textContent.classList.add('modal-text');
-      textContent.textContent = "Hello! This is some placeholder text.";
+      textContent.textContent = "Hello! This is a longer bit of text. It keeps going. Let's see if it wraps around.";
 
       newModalBody.appendChild(modalTitle);
       newModalBody.appendChild(textContent);
@@ -215,43 +198,10 @@ class DisplayController {
     return newModalContainer;
   }
 
-  static #createBlankModal() {
-    const newModalContainer = document.createElement('div');
-    newModalContainer.classList.add('modal');
-
-    const newModalLabel = document.createElement('label');
-    newModalLabel.setAttribute('for', 'projects-modal');
-    newModalLabel.classList.add('modal-bg');
-
-    const newModalBody = document.createElement('div');
-    newModalBody.setAttribute('id', 'projects-modal-container');
-    newModalBody.classList.add('modal-body', 'overflow-scroll');
-
-    const closeLabel = document.createElement('label');
-    closeLabel.setAttribute('for', 'projects-modal');
-    closeLabel.classList.add('btn-close');
-    closeLabel.textContent = 'X';
-
-    newModalContainer.appendChild(newModalLabel);
-    newModalContainer.appendChild(newModalBody);
-    newModalBody.appendChild(closeLabel);
-    
-    return newModalContainer;
-  }
-
-  static changeModalContents(modalBodyContents) {
-    this.#clearModal();
-    const modalBody = document.querySelector('#projects-modal-container');
-    console.log('modal body contents:');
-    console.log(modalBodyContents);
-    modalBody.appendChild(modalBodyContents);
-  }
-
-  static newProjectForm(project) {
+  static #newProjectForm(project) {
     const newProjectContainer = document.createElement('div');
     newProjectContainer.classList.add('new-project-container', 'ma2', 'w5', 'h5');
-
-    newProjectContainer.dataset.projectId = project ? project.id : 'new';
+    newProjectContainer.dataset.projectId = 'new';
 
     const projectBody = document.createElement('div');
     projectBody.classList.add('project-body', 'overflow-scroll');
@@ -269,7 +219,7 @@ class DisplayController {
     projectTitle.setAttribute('placeholder', 'My New Project');
     projectTitle.setAttribute('type', 'text');
     projectTitle.setAttribute('id', 'new-project-title-input');
-    projectTitle.value = project ? project.name : '';
+    if(project) { projectTitle.value = project.title; }
 
     const projectTodosHeader = document.createElement('h3');
     projectTodosHeader.textContent = 'Todos:';
@@ -277,7 +227,7 @@ class DisplayController {
     const projectTodos = document.createElement('div');
     projectTodos.classList.add('project-todos', 'mt-4');
 
-    // const todoList = document.createElement('div');
+    const todoList = document.createElement('div');
 
     const projectSaveRow = document.createElement('div');
     projectSaveRow.classList.add('row');
@@ -296,23 +246,16 @@ class DisplayController {
     projectTitleContainer.appendChild(projectTitle);
     projectBody.appendChild(projectTodosHeader);
     projectBody.appendChild(projectTodos);
-    // projectTodos.appendChild(todoList);
+    projectTodos.appendChild(todoList);
+    todoList.appendChild(this.#newTodoForm);
     projectSaveRow.appendChild(projectSaveContainer);
     projectSaveContainer.appendChild(projectSaveButton);
     projectBody.appendChild(projectSaveRow);
 
-    if(project && project.todoItems) {
-      project.todoItems.forEach(todo => {
-        projectTodos.appendChild(this.#createNewTodoForm(todo));
-      });
-    }
-
-    projectTodos.appendChild(this.#createNewTodoForm());
-
     return newProjectContainer;
   }
 
-  static #createNewTodoForm(todo) {
+  static #createNewTodoForm() {
     const todoFormContainer = document.createElement('div');
     todoFormContainer.classList.add('form-group', 'nt4', 'ml3');
 
@@ -330,7 +273,7 @@ class DisplayController {
     const dueDate = document.createElement('input');
     dueDate.setAttribute('type', 'date');
     dueDate.setAttribute('id', 'new-todo-date');
-    dueDate.classList.add('mv2');
+    todoDescription.classList.add('mv2');
 
     const todoPriority = document.createElement('select');
     todoPriority.setAttribute('id', 'new-todo-priority');
@@ -349,19 +292,9 @@ class DisplayController {
     highPriority.textContent = 'High';
 
     const submitTodo = document.createElement('button');
+    submitTodo.setAttribute('id', 'new-todo');
     submitTodo.classList.add('btn-secondary', 'mv2');
-    if(todo) {
-      todoTitle.value = todo.title;
-      todoDescription.value = todo.description;
-      dueDate.value = todo.dueDate;
-      submitTodo.textContent = 'Update Task';
-      submitTodo.setAttribute('id', 'save-todo');
-      submitTodo.dataset.projectId = todo.projectId;
-      submitTodo.dataset.todoId = todo.id;
-    } else {
-      submitTodo.setAttribute('id', 'new-todo');
-      submitTodo.textContent = 'Add Task';
-    }
+    submitTodo.textContent = 'Add task';
 
     todoFormContainer.appendChild(todoTitle);
     todoFormContainer.appendChild(todoDescription);
@@ -375,206 +308,36 @@ class DisplayController {
     return todoFormContainer;
   }
 
-  // Turning the whole project display into a label button to pop it up in a modal
   static displayProject(project) {
     const projectContainer = document.createElement('div');
     projectContainer.classList.add('project-container', 'card', 'ma2', 'w5', 'h5');
 
-    const projectLabelContainer = document.createElement('div');
-    // projectLabelContainer.datalist.projectId = project.id;
-    projectLabelContainer.classList.add('project-label-container');
-
-    const projectLabel = document.createElement('label');
-    projectLabel.dataset.projectId = project.id;
-    projectLabel.setAttribute('for', `projects-modal`);
-    projectLabel.classList.add('project-labels');
-    // projectLabel.setAttribute('for', `edit-button-input-${project.id}`);
-
     const projectBody = document.createElement('div');
-    projectBody.classList.add('project-body', 'card-body', 'overflow-scroll', 'h5');
-
-    // const editButton = document.createElement('button');
-    // editButton.classList.add('edit-button', 'badge', 'warning', 'pa1', 'absolute', 'right-1');
-    // editButton.dataset.projectId = project.id;
-    // editButton.textContent = 'Edit';
-
-    // const editButtonContainer = document.createElement('div');
-    // editButtonContainer.classList.add('edit-button-container', 'row', 'flex-spaces', 'absolute', 'right-1');
-    // editButtonContainer.classList.add('edit-button-container', 'absolute', 'right-1', 'top-1');
-
-    // const editButtonLabel = document.createElement('label');
-    // editButtonLabel.dataset.projectId = project.id;
-    // editButtonLabel.setAttribute('for', `edit-button-input-${project.id}`);
-    // editButtonLabel.classList.add('edit-button', 'paper-btn', 'badge', 'warning', 'pa2');
-    // editButtonLabel.textContent = 'Edit';
+    projectBody.classList.add('project-body', 'card-body', 'overflow-scroll');
 
     const projectTitle = document.createElement('h3');
-    projectTitle.classList.add('project-title', 'card-title');
+    projectTitle.classList.add('project-title', 'card-title', 'pt3');
     projectTitle.textContent = project.name;
 
     const projectTodos = document.createElement('div');
     projectTodos.classList.add('project-todos', 'mt-4');
 
-    projectContainer.appendChild(projectLabelContainer);
-    projectLabelContainer.appendChild(projectLabel);
-    projectContainer.appendChild(editProjectInput);
-    projectLabel.appendChild(projectBody);
-    // projectBody.appendChild(editButtonContainer);
-    // editButtonContainer.appendChild(editButtonLabel);
-    // projectBody.appendChild(editButtonInput);
-    // projectBody.appendChild(editModal);
-    // projectBody.appendChild(editModal);
+    projectContainer.appendChild(projectBody);
+    projectBody.appendChild(editButton);
     projectBody.appendChild(projectTitle);
     projectBody.appendChild(projectTodos);
-    // modalContainer.appendChild(editModal);
 
-    if(project.todoItems) {
-      for(const todo of project.todoItems) {
-        projectTodos.appendChild(this.#displayTodoItem(todo));
-      }
+    for(const todo of project.todoItems) {
+      projectTodos.appendChild(this.#displayTodoItem(todo));
     }
 
     return projectContainer;
   }
 
-  // Using its own self-contained modal
-  // static displayProject(project, editing) {
-  //   const projectContainer = document.createElement('div');
-  //   projectContainer.classList.add('project-container', 'card', 'ma2', 'w5', 'h5');
-
-  //   const projectBody = document.createElement('div');
-  //   projectBody.classList.add('project-body', 'card-body', 'overflow-scroll');
-
-  //   // const editButton = document.createElement('button');
-  //   // editButton.classList.add('edit-button', 'badge', 'warning', 'pa1', 'absolute', 'right-1');
-  //   // editButton.dataset.projectId = project.id;
-  //   // editButton.textContent = 'Edit';
-
-  //   const editButtonContainer = document.createElement('div');
-  //   // editButtonContainer.classList.add('edit-button-container', 'row', 'flex-spaces', 'absolute', 'right-1');
-  //   editButtonContainer.classList.add('edit-button-container', 'absolute', 'right-1', 'top-1');
-
-  //   const editButtonLabel = document.createElement('label');
-  //   editButtonLabel.dataset.projectId = project.id;
-  //   editButtonLabel.setAttribute('for', `edit-button-input-${project.id}`);
-  //   editButtonLabel.classList.add('edit-button', 'paper-btn', 'badge', 'warning', 'pa2');
-  //   editButtonLabel.textContent = 'Edit';
-
-  //   const editButtonInput = document.createElement('input');
-  //   editButtonInput.setAttribute('id', `edit-button-input-${project.id}`);
-  //   editButtonInput.setAttribute('type', 'checkbox');
-  //   editButtonInput.classList.add('modal-state');
-
-  //   // const editModalContainer = document.createElement('div');
-  //   // editModalContainer.classList.add('modal');
-
-  //   // const editModalLabel = document.createElement('label');
-  //   // editModalLabel.setAttribute('for', 'edit-modal-input');
-  //   // editModalLabel.classList.add('modal-bg');
-
-  //   const editModal = this.createNewProjectModal(this.#newProjectForm(project), `edit-button-input-${project.id}`);
-
-  //   const projectTitle = document.createElement('h3');
-  //   projectTitle.classList.add('project-title', 'card-title', 'pt4');
-  //   projectTitle.textContent = project.name;
-
-  //   const projectTodos = document.createElement('div');
-  //   projectTodos.classList.add('project-todos', 'mt-4');
-
-  //   projectContainer.appendChild(projectBody);
-  //   projectBody.appendChild(editButtonContainer);
-  //   editButtonContainer.appendChild(editButtonLabel);
-  //   projectBody.appendChild(editButtonInput);
-  //   projectBody.appendChild(editModal);
-  //   // projectBody.appendChild(editModal);
-  //   projectBody.appendChild(projectTitle);
-  //   projectBody.appendChild(projectTodos);
-  //   // modalContainer.appendChild(editModal);
-
-  //   if(editing) {
-  //     project.todoItems.forEach(todo => {
-  //       projectTodos.appendChild(this.#createNewTodoForm(todo));
-  //     });
-  //   } else{
-  //     for(const todo of project.todoItems) {
-  //       projectTodos.appendChild(this.#displayTodoItem(todo));
-  //     }
-  //   }
-
-  //   return projectContainer;
-  // }
-
-  // Trying label with same id as new project button, to swap out modal contents via js
-  // static displayProject(project, editing) {
-  //   const projectContainer = document.createElement('div');
-  //   projectContainer.classList.add('project-container', 'card', 'ma2', 'w5', 'h5');
-
-  //   const projectBody = document.createElement('div');
-  //   projectBody.classList.add('project-body', 'card-body', 'overflow-scroll');
-
-  //   // const editButton = document.createElement('button');
-  //   // editButton.classList.add('edit-button', 'badge', 'warning', 'pa1', 'absolute', 'right-1');
-  //   // editButton.dataset.projectId = project.id;
-  //   // editButton.textContent = 'Edit';
-
-  //   const editButtonContainer = document.createElement('div');
-  //   // editButtonContainer.classList.add('edit-button-container', 'row', 'flex-spaces', 'absolute', 'right-1');
-  //   editButtonContainer.classList.add('edit-button-container', 'absolute', 'right-1', 'top-1');
-
-  //   const editButtonLabel = document.createElement('label');
-  //   editButtonLabel.dataset.projectId = project.id;
-  //   editButtonLabel.setAttribute('for', `new-project-input`);
-  //   editButtonLabel.classList.add('edit-button', 'paper-btn', 'badge', 'warning', 'pa2');
-  //   editButtonLabel.textContent = 'Edit';
-
-  //   const editButtonInput = document.createElement('input');
-  //   editButtonInput.setAttribute('id', `new-project-input`);
-  //   editButtonInput.setAttribute('type', 'checkbox');
-  //   editButtonInput.classList.add('modal-state');
-
-  //   // const editModalContainer = document.createElement('div');
-  //   // editModalContainer.classList.add('modal');
-
-  //   // const editModalLabel = document.createElement('label');
-  //   // editModalLabel.setAttribute('for', 'edit-modal-input');
-  //   // editModalLabel.classList.add('modal-bg');
-
-  //   // const editModal = this.createNewProjectModal(this.#newProjectForm(project), `new-project-input`);
-
-  //   const projectTitle = document.createElement('h3');
-  //   projectTitle.classList.add('project-title', 'card-title', 'pt4');
-  //   projectTitle.textContent = project.name;
-
-  //   const projectTodos = document.createElement('div');
-  //   projectTodos.classList.add('project-todos', 'mt-4');
-
-  //   projectContainer.appendChild(projectBody);
-  //   projectBody.appendChild(editButtonContainer);
-  //   editButtonContainer.appendChild(editButtonLabel);
-  //   projectBody.appendChild(editButtonInput);
-  //   // projectBody.appendChild(editModal);
-  //   // projectBody.appendChild(editModal);
-  //   projectBody.appendChild(projectTitle);
-  //   projectBody.appendChild(projectTodos);
-  //   // modalContainer.appendChild(editModal);
-
-  //   if(editing) {
-  //     project.todoItems.forEach(todo => {
-  //       projectTodos.appendChild(this.#createNewTodoForm(todo));
-  //     });
-  //   } else{
-  //     for(const todo of project.todoItems) {
-  //       projectTodos.appendChild(this.#displayTodoItem(todo));
-  //     }
-  //   }
-
-  //   return projectContainer;
-  // }
-
   static #displayTodoItem(todo) {
     const projectTodo = document.createElement("div");
     projectTodo.classList.add('project-todo', 'relative', 'db', 'mt2');
-    projectTodo.dataset.todoId = `${todo.projectId}-${todo.id}`;
+    projectTodo.dataset.todoId = `${todo.project_id}-${todo.id}`;
 
     const todoLabelGroup = document.createElement('fieldset');
     todoLabelGroup.classList.add('form-group');
