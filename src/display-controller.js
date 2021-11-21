@@ -223,6 +223,7 @@ class DisplayController {
     if(project) { projectTitle.value = project.title; }
 
     const projectTodosHeader = document.createElement('h3');
+    projectTodosHeader.classList.add('nb2');
     projectTodosHeader.textContent = 'Todos:';
 
     const projectTodos = document.createElement('div');
@@ -256,28 +257,32 @@ class DisplayController {
     return newProjectContainer;
   }
 
-  static #createNewTodoForm() {
+  static #createNewTodoForm(project) {
     const todoFormContainer = document.createElement('div');
-    todoFormContainer.classList.add('form-group', 'nt4', 'ml3');
+    todoFormContainer.classList.add('form-group', 'ml3');
 
     const todoTitle = document.createElement('input');
     todoTitle.setAttribute('placeholder', 'Todo Title');
     todoTitle.setAttribute('type', 'text');
-    todoTitle.setAttribute('id', 'new-todo-title');
+    todoTitle.setAttribute('id', project ? `newTodoTitle${project.id}` : 'new-todo-title');
+    // todoTitle.setAttribute('id', 'new-todo-title');
     todoTitle.classList.add('mv2');
 
     const todoDescription = document.createElement('textarea');
     todoDescription.setAttribute('placeholder', 'Task description');
-    todoDescription.setAttribute('id', 'new-todo-description');
+    todoDescription.setAttribute('id', project ? `newTodoDescription${project.id}` : 'new-todo-description');
+    // todoDescription.setAttribute('id', 'new-todo-description');
     todoDescription.classList.add('mv2');
 
     const dueDate = document.createElement('input');
     dueDate.setAttribute('type', 'date');
-    dueDate.setAttribute('id', 'new-todo-date');
+    dueDate.setAttribute('id', project ? `newTodoDate${project.id}` : 'new-todo-date');
+    // dueDate.setAttribute('id', 'new-todo-date');
     todoDescription.classList.add('mv2');
 
     const todoPriority = document.createElement('select');
-    todoPriority.setAttribute('id', 'new-todo-priority');
+    todoPriority.setAttribute('id', project ? `newTodoPriority${project.id}` : 'new-todo-priority');
+    // todoPriority.setAttribute('id', 'new-todo-priority');
     todoPriority.classList.add('mv2');
     
     const lowPriority = document.createElement('option');
@@ -293,8 +298,13 @@ class DisplayController {
     highPriority.textContent = 'High';
 
     const submitTodo = document.createElement('button');
-    submitTodo.setAttribute('id', 'new-todo');
-    submitTodo.classList.add('btn-secondary', 'mv2');
+    if(project) {
+      submitTodo.setAttribute('id', `updateTodo${project.id}`)
+      submitTodo.dataset.projectId = project.id;
+    } else {
+      submitTodo.setAttribute('id', 'new-todo');
+    }
+    submitTodo.classList.add('update-todos', 'btn-secondary', 'mv2');
     submitTodo.textContent = 'Add task';
 
     todoFormContainer.appendChild(todoTitle);
@@ -330,6 +340,8 @@ class DisplayController {
     for(const todo of project.todoItems) {
       projectTodos.appendChild(this.#displayTodoItem(todo));
     }
+
+    projectTodos.appendChild(this.#createNewTodoForm(project));
 
     return projectContainer;
   }

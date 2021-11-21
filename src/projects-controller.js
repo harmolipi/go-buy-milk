@@ -57,7 +57,9 @@ class ProjectsController {
 
   static updateEventListeners() {
     const deleteTodoButtons = document.querySelectorAll('.delete-button');
+    const updateTodoButtons = document.querySelectorAll('.update-todos');
     if(deleteTodoButtons) deleteTodoButtons.forEach(button => button.addEventListener('click', (e) => this.#deleteTodoItem(e)));
+    if(updateTodoButtons) updateTodoButtons.forEach(button => button.addEventListener('click', (e) => this.#addTodoItem(e)));
   }
 
   static #addTodoToNewProject(e) {
@@ -85,8 +87,21 @@ class ProjectsController {
   static #deleteTodoItem(e) {
     e.preventDefault();
     const project = this.#projects[e.currentTarget.dataset.projectId];
-    const todo = project.todoItems[e.currentTarget.dataset.todoId];
     project.removeTodo(e.currentTarget.dataset.todoId);
+    this.#updateProjects();
+    DisplayController.updateDisplay(this.#projects);
+  }
+
+  static #addTodoItem(e) {
+    e.preventDefault();
+    const project = this.#projects[e.currentTarget.dataset.projectId];
+    const newTodoTitle = document.querySelector(`#newTodoTitle${project.id}`).value;
+    const newTodoDescription = document.querySelector(`#newTodoDescription${project.id}`).value;
+    const newTodoDate = document.querySelector(`#newTodoDate${project.id}`).value;
+    const newTodoPriority = document.querySelector(`#newTodoPriority${project.id}`).value;
+    const newTodo = new TodoItem(newTodoTitle, newTodoDescription, newTodoDate, newTodoPriority, false, project.id);
+    
+    project.addTodo(newTodo);
     this.#updateProjects();
     DisplayController.updateDisplay(this.#projects);
   }
