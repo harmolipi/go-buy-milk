@@ -10,7 +10,7 @@ class ProjectsController {
     this.#projects = [];
     this.#newProject = newProject();
     // this.#setDefault();
-    this.#setDevDefaults();
+    // this.#setDevDefaults();
     this.#updateProjects();
     this.#setEventListeners();
   }
@@ -28,9 +28,9 @@ class ProjectsController {
     let tempProjects = this.#projects.slice();
     this.#clearProjects();
     tempProjects.forEach((project) => {
-      project.updateTodoList();
       this.#projects.push(project);
       project.id = this.#projects.length - 1;
+      project.updateTodoList();
     });
   }
 
