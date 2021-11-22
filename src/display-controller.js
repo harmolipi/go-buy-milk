@@ -79,7 +79,6 @@ class DisplayController {
   static #clearListForm() {
     const newListModal = document.querySelector('#new-list-modal');
     const title = document.querySelector('#new-list-title-input');
-
     newListModal.scrollTo(0, 0);
     title.value = '';
   }
@@ -130,7 +129,7 @@ class DisplayController {
 
   static #createNewListButton() {
     const newListButton = document.createElement('div');
-    newListButton.setAttribute('id', 'new-list-button2');
+    newListButton.setAttribute('id', 'new-list-button');
     newListButton.classList.add('mw5', 'pa1', 'ma3', 'flex');
 
     const buttonLabel = document.createElement('label');
@@ -181,20 +180,7 @@ class DisplayController {
     newModalContainer.appendChild(newModalBody);
     newModalBody.appendChild(closeLabel);
     
-    if(modalBody) {
-      newModalBody.appendChild(modalBody);
-    } else {
-      const modalTitle = document.createElement('h4');
-      modalTitle.classList.add('modal-title');
-      modalTitle.textContent = 'This is the title';
-
-      const textContent = document.createElement('p');
-      textContent.classList.add('modal-text');
-      textContent.textContent = "Hello! This is a longer bit of text. It keeps going. Let's see if it wraps around.";
-
-      newModalBody.appendChild(modalTitle);
-      newModalBody.appendChild(textContent);
-    }
+    if(modalBody) newModalBody.appendChild(modalBody);
 
     return newModalContainer;
   }
