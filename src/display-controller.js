@@ -1,13 +1,20 @@
-import { ListsController } from './lists-controller';
+import ListsController from './lists-controller';
 
 class DisplayController {
   static #body;
+
   static #content;
+
   static #lists;
+
   static #navbar;
+
   static #newListButton;
+
   static #newListInput;
+
   static #newListModal;
+
   static #newTodoForm;
 
   static initialize() {
@@ -29,15 +36,17 @@ class DisplayController {
   }
 
   static updateDisplay(display = ListsController.lists) {
-    this.clearLists(lists);
+    this.clearLists(this.#lists);
     const newListInput = document.querySelector('#new-list-input');
     newListInput.checked = false;
 
-    for(const list of display) {
-      let displayList = this.displayList(list)
+    let displayList;
+
+    display.forEach((list) => {
+      displayList = this.displayList(list);
       displayList.dataset.listId = list.id;
       this.#lists.appendChild(displayList);
-    }
+    });
 
     this.#clearListForm();
     this.#clearTodoListForm();
@@ -45,7 +54,7 @@ class DisplayController {
   }
 
   static clearLists(element) {
-    while(element.lastChild && element.lastChild.classList.contains('list-container')) {
+    while (element.lastChild && element.lastChild.classList.contains('list-container')) {
       element.removeChild(element.lastChild);
     }
   }
@@ -55,13 +64,15 @@ class DisplayController {
     const todoList = listContainer.querySelector('.list-todos');
     this.clearTodoList(todoList);
 
-    for(const todo of list.todoItems) {
-      let displayTodo = this.#displayTodoItem(todo);
+    let displayTodo;
+    const horizontalRule = document.createElement('hr');
+
+    list.todoItems.forEach((todo) => {
+      displayTodo = this.#displayTodoItem(todo);
       displayTodo.classList.add('mv3');
       todoList.appendChild(displayTodo);
-      const horizontalRule = document.createElement('hr');
       todoList.appendChild(horizontalRule);
-    }
+    });
 
     const todoListForm = document.createElement('div');
     todoListForm.classList.add('mv5');
@@ -71,7 +82,7 @@ class DisplayController {
   }
 
   static clearTodoList(todoList) {
-    while(todoList.firstChild) {
+    while (todoList.firstChild) {
       todoList.removeChild(todoList.firstChild);
     }
   }
@@ -101,7 +112,7 @@ class DisplayController {
     content.classList.add('min-vh-100', 'h-100', 'ma0', 'pa0', 'paper');
     return content;
   }
-  
+
   static createListsContainer() {
     const lists = document.createElement('div');
     lists.id = 'lists';
@@ -135,18 +146,18 @@ class DisplayController {
     const buttonLabel = document.createElement('label');
     buttonLabel.setAttribute('for', 'new-list-input');
     buttonLabel.classList.add('paper-btn', 'bg-white', 'f4', 'f3-ns', 'flex', 'flex-column', 'items-center', 'pa2', 'pa3-ns');
-  
+
     const plusSign = document.createElement('span');
     plusSign.classList.add('f1');
     plusSign.innerText = '+';
-  
+
     const addNewList = document.createElement('span');
     addNewList.innerText = 'Add New List';
-    
+
     newListButton.appendChild(buttonLabel);
     buttonLabel.appendChild(plusSign);
     buttonLabel.appendChild(addNewList);
-  
+
     return newListButton;
   }
 
@@ -179,8 +190,8 @@ class DisplayController {
     newModalContainer.appendChild(newModalLabel);
     newModalContainer.appendChild(newModalBody);
     newModalBody.appendChild(closeLabel);
-    
-    if(modalBody) newModalBody.appendChild(modalBody);
+
+    if (modalBody) newModalBody.appendChild(modalBody);
 
     return newModalContainer;
   }
@@ -206,7 +217,7 @@ class DisplayController {
     listTitle.setAttribute('placeholder', 'My New List');
     listTitle.setAttribute('type', 'text');
     listTitle.setAttribute('id', 'new-list-title-input');
-    if(list) { listTitle.value = list.title; }
+    if (list) { listTitle.value = list.title; }
 
     const listTodosHeader = document.createElement('h3');
     listTodosHeader.classList.add('nb2');
@@ -268,7 +279,7 @@ class DisplayController {
     const todoPriority = document.createElement('select');
     todoPriority.setAttribute('id', list ? `newTodoPriority${list.id}` : 'new-todo-priority');
     todoPriority.classList.add('mv2');
-    
+
     const lowPriority = document.createElement('option');
     lowPriority.setAttribute('value', 'low');
     lowPriority.textContent = 'Low';
@@ -282,13 +293,13 @@ class DisplayController {
     highPriority.textContent = 'High';
 
     const submitTodo = document.createElement('button');
-    if(list) {
-      submitTodo.setAttribute('id', `updateTodo${list.id}`)
+    if (list) {
+      submitTodo.setAttribute('id', `updateTodo${list.id}`);
       submitTodo.dataset.listId = list.id;
     } else {
       submitTodo.setAttribute('id', 'new-todo');
     }
-    if(submitTodo.id != 'new-todo') submitTodo.classList.add('update-todos');
+    if (submitTodo.id !== 'new-todo') submitTodo.classList.add('update-todos');
     submitTodo.classList.add('btn-secondary', 'mv2');
     submitTodo.textContent = 'Add task';
 
@@ -328,9 +339,9 @@ class DisplayController {
     listBody.appendChild(listTodos);
     listBody.appendChild(deleteListButton);
 
-    for(const todo of list.todoItems) {
+    list.todoItems.forEach((todo) => {
       listTodos.appendChild(this.#displayTodoItem(todo));
-    }
+    });
 
     const todoCollapsibleFormContainer = document.createElement('div');
     todoCollapsibleFormContainer.classList.add('collapsible', 'w-100');
@@ -341,7 +352,7 @@ class DisplayController {
     todoCollapsibleFormInput.setAttribute('name', 'collapsible');
 
     const todoOpenForm = document.createElement('label');
-    todoOpenForm.setAttribute('for', `collapsibleForm${list.id}`)
+    todoOpenForm.setAttribute('for', `collapsibleForm${list.id}`);
     todoOpenForm.classList.add('todo-open-form');
     todoOpenForm.style.textAlign = 'left';
     todoOpenForm.textContent = 'Add another task';
@@ -359,7 +370,7 @@ class DisplayController {
   }
 
   static #displayTodoItem(todo) {
-    const listTodo = document.createElement("div");
+    const listTodo = document.createElement('div');
     listTodo.classList.add('list-todo', 'relative', 'db');
     listTodo.dataset.todoId = `${todo.list_id}-${todo.id}`;
 
@@ -411,7 +422,7 @@ class DisplayController {
 
     const todoDate = document.createElement('span');
     todoDate.classList.add('todo-date', 'f6');
-    todoDate.textContent = todo.dueDate
+    todoDate.textContent = todo.dueDate;
 
     const todoDescriptionContainer = document.createElement('div');
     todoDescriptionContainer.classList.add('collapsible-body');
@@ -435,7 +446,7 @@ class DisplayController {
     todoDescriptionContainer.appendChild(deleteTodoButton);
     todoDescriptionContainer.appendChild(todoDescription);
 
-    switch(todo.priority) {
+    switch (todo.priority) {
       case 'high':
         todoTitleText.classList.add('red');
         break;
@@ -445,10 +456,12 @@ class DisplayController {
       case 'low':
         todoTitleText.classList.add('green');
         break;
+      default:
+        break;
     }
 
     return todoCollapsibleContainer;
   }
 }
 
-export { DisplayController };
+export default DisplayController;

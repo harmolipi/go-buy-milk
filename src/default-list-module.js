@@ -1,9 +1,9 @@
-import { List } from './list-module';
-import { TodoItem } from './todo-item-module';
+import List from './list-module';
+import TodoItem from './todo-item-module';
 
 const newList = () => {
-  const newList = new List('New List', 'new');
-  return newList;
+  const newDefaultList = new List('New List', 'new');
+  return newDefaultList;
 };
 
 const generateDevDefault = () => {
@@ -12,7 +12,7 @@ const generateDevDefault = () => {
   const myTodo1 = new TodoItem('test title', 'test description', 'test due date', 'medium', true, 0, 0);
   const myTodo2 = new TodoItem('Title', 'This is the description of this todo', 'Due date', 'high', false, 1, 0);
   const myTodo3 = new TodoItem("Here's another task", 'This task will entail many things that need to be done.', 'Due date', 'low', true, 1, 1);
-  
+
   myList1.addTodo(myTodo1);
   myList2.addTodo(myTodo2);
   myList2.addTodo(myTodo3);

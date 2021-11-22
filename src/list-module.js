@@ -1,6 +1,8 @@
 class List {
   name;
+
   id;
+
   todoItems;
 
   constructor(name, id) {
@@ -20,12 +22,12 @@ class List {
   }
 
   updateTodoList() {
-    let tempTodos = this.todoItems.slice();
+    const tempTodos = [...this.todoItems];
     this.#clearTodos();
-    tempTodos.forEach((todo) => {
+    tempTodos.forEach((todo, index) => {
       todo.listId = this.id;
+      todo.id = index;
       this.todoItems.push(todo);
-      todo.id = this.todoItems.length - 1;
     });
   }
 
@@ -34,4 +36,4 @@ class List {
   }
 }
 
-export { List };
+export default List;

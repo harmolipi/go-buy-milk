@@ -1,10 +1,16 @@
 class TodoItem {
   title;
+
   description;
+
   dueDate;
+
   priority;
+
   completed;
+
   id;
+
   listId;
 
   constructor(title, description, dueDate, priority, completed, listId, id) {
@@ -18,4 +24,4 @@ class TodoItem {
   }
 }
 
-export { TodoItem };
+export default TodoItem;
